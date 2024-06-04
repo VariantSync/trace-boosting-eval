@@ -22,7 +22,6 @@ import java.util.Set;
 /**
  * Class for evaluating the result of a feature trace run.
  * 
- * @author sandra
  */
 public class Evaluator {
     Map<Integer, char[]> binaryMap = new HashMap<>();
@@ -32,17 +31,44 @@ public class Evaluator {
     final int noOfFeatures;
     final int tableSize;
 
+    /**
+     * Constructor for the Evaluator class.
+     * Initializes the Evaluator with the given TraceBoosting object.
+     * Calculates the number of features in the TraceBoosting object and sets the
+     * table size accordingly.
+     * Creates a binary map with keys representing binary numbers up to the table
+     * size.
+     * 
+     * @param traceBoosting The TraceBoosting object to initialize the Evaluator
+     *                      with.
+     */
     public Evaluator(final TraceBoosting traceBoosting) {
         this.traceBoosting = traceBoosting;
         this.noOfFeatures = this.traceBoosting.getAllFeatures().size();
         tableSize = (int) Math.pow(2, noOfFeatures);
         for (int i = 0; i < tableSize; i++) {
-            binaryMap.put(i, String.format("%0" + noOfFeatures + "d", Integer.parseInt(Integer.toBinaryString(i)))
-                    .toCharArray());
+            binaryMap.put(i,
+                    String.format("{{input}}" + noOfFeatures + "d", Integer.parseInt(Integer.toBinaryString(i)))
+                            .toCharArray());
         }
     }
 
-    public double[] compare(MainTree maintree, Map<String, GroundTruth> product_pc, Set<String> relevantFeatures,
+    /**
+     * Compares the given MainTree with the ground truth and evaluates the boosted
+     * traces.
+     * 
+     * @param maintree         The MainTree to compare with the ground truth
+     * @param productPC        A map containing product names as keys and
+     *                         corresponding GroundTruth objects as values
+     * @param relevantFeatures A set of relevant features to consider during
+     *                         comparison
+     * @param strip            the number of path elements to cut off at the start
+     *                         of paths
+     * @return An array of doubles representing the evaluation results for the
+     *         boosted traces
+     * @throws IllegalArgumentException if maintree is null or productPC is empty
+     */
+    public double[] compare(MainTree maintree, Map<String, GroundTruth> productPC, Set<String> relevantFeatures,
             int strip) {
         double[] return_value = { 0.0, 0.0, 0.0, 0.0 };
         int counter = 0;
@@ -56,7 +82,7 @@ public class Evaluator {
                 Product product = productPosition.product;
                 assert product != null;
 
-                Artefact result = product_pc.get(product.getName()).variant();
+                Artefact result = productPC.get(product.getName()).variant();
                 Path positionPath = productPosition.filePath().subpath(strip,
                         productPosition.filePath().getNameCount());
 
@@ -71,8 +97,6 @@ public class Evaluator {
                         pc = r.getSuccess();
                     }
                 } else {
-                    // positionPath =
-                    // Path.of(positionPathString.substring(positionPathString.indexOf("src")));
                     pc = result.getPresenceConditionOf(new CaseSensitivePath(positionPath),
                             productPosition.lineNumber())
                             .expect("Not able to load PC for " + positionPath + " line "
@@ -129,20 +153,21 @@ public class Evaluator {
                 return_value[2] / counter, return_value[3] / counter };
     }
 
+    /**
+     * Compares two mappings and calculates the true positive, true negative, false
+     * positive, and false negative rates.
+     * 
+     * @param groundTruth The ground truth mapping as a string
+     * @param mapping     The mapping to be compared against the ground truth
+     * @return An array of doubles containing the true positive rate, true negative
+     *         rate, false positive rate, and false negative rate
+     * 
+     * @throws IllegalArgumentException if the groundTruth and mapping strings are
+     *                                  not of the same length
+     */
     public double[] compareMappings(String groundTruth, String mapping) {
-        // if (!groundTruth.equals(mapping))
-        // System.out.println("they are not the same: " + groundTruth + " and " +
-        // mapping);
-        // if (mapping.equals("Root"))
-        // mapping = "true";
-
-        // if (groundTruth.equals(mapping) && truePositiveAmount.get(mapping) !=null){
-        // double tps = truePositiveAmount.get(mapping);
-        // return new double[] {tps/tableSize, tableSize-tps/tableSize, 0, 0};
-        // }
-
-        boolean[] gt_bool = eval_truth_table(groundTruth);
-        boolean[] mp_bool = eval_truth_table(mapping);
+        boolean[] gt_bool = evalTruthTable(groundTruth);
+        boolean[] mp_bool = evalTruthTable(mapping);
 
         double tp = 0.0;
         double tn = 0.0;
@@ -150,6 +175,10 @@ public class Evaluator {
         double fn = 0.0;
 
         double gtSize = gt_bool.length;
+        if (gtSize != mp_bool.length) {
+            throw new IllegalArgumentException("Ground truth and mapping strings must be of the same length");
+        }
+
         for (int i = 0; i < gtSize; i++) {
             if (gt_bool[i] == mp_bool[i]) {
                 if (gt_bool[i]) {
@@ -160,21 +189,33 @@ public class Evaluator {
             } else {
                 if (gt_bool[i]) {
                     fn += 1.0;
-                } else
+                } else {
                     fp += 1.0;
+                }
             }
         }
+
         truePositiveAmount.putIfAbsent(mapping, tp);
         return new double[] { tp / gtSize, tn / gtSize, fp / gtSize, fn / gtSize };
     }
 
-    public boolean[] eval_truth_table(String mapping) {
+    /**
+     * Evaluates the truth table for a given mapping and returns the corresponding
+     * boolean array.
+     * If the truth table for the given mapping has already been computed, it is
+     * retrieved from a cache.
+     * If not, the truth table is computed and stored in the cache for future use.
+     *
+     * @param mapping the mapping for which the truth table needs to be evaluated
+     * @return the boolean array representing the truth table for the given mapping
+     */
+    public boolean[] evalTruthTable(String mapping) {
         if (truthTable.get(mapping) != null)
             return truthTable.get(mapping);
         else {
             boolean[] retList = new boolean[tableSize];
             for (int i = 0; i < tableSize; i++) {
-                retList[i] = eval_truth_line(mapping, i);
+                retList[i] = evalTruthLine(mapping, i);
             }
             truthTable.put(mapping, retList);
             return retList;
@@ -192,7 +233,7 @@ public class Evaluator {
      * 4 ...
      * And the mapping may be string like this "!Root and FeatureA"
      */
-    public boolean eval_truth_line(String mapping, int lineNumber) {
+    public boolean evalTruthLine(String mapping, int lineNumber) {
         char[] bin = binaryMap.get(lineNumber);
         int i = -1;
         for (Feature feature : this.traceBoosting.getAllFeatures()) {
@@ -218,17 +259,24 @@ public class Evaluator {
         return true;
     }
 
-    public static boolean eval_expression(String expression) {
+    /**
+     * Evaluates a logical expression containing only the 'AND' operator.
+     * 
+     * @param expression a String representing the logical expression to be
+     *                   evaluated
+     * @return true if all sub-expressions separated by the 'AND' operator evaluate
+     *         to true, false otherwise
+     * @throws IllegalArgumentException if the input expression is null or empty
+     */
+    public static boolean evalExpression(String expression) {
+        if (expression == null || expression.isEmpty()) {
+            throw new IllegalArgumentException("Input expression cannot be null or empty");
+        }
+
         int j = expression.indexOf('&', 0);
         int i = 0;
         while (j >= 0) {
             if (expression.substring(i, j).contains("true")) {
-                // String[] split_and = expression.split(" & ");
-                // for (int k = 0; k < split_and.length; k++) {
-                // if (split_and[k].contains("true")) { // in case of a disjunction, one true is
-                // enough to make mapping true
-                // split_and[k] = "true"; // not necessary
-                // continue;
                 i = j + 1;
                 j = expression.indexOf('&', i);
             } else {
@@ -238,15 +286,60 @@ public class Evaluator {
         return true;
     }
 
+    /**
+     * Calculates the precision of a model based on the true positives (tp) and
+     * false positives (fp).
+     * Precision is defined as the ratio of true positives to the sum of true
+     * positives and false positives.
+     *
+     * @param tp The number of true positive predictions.
+     * @param fp The number of false positive predictions.
+     * @return The precision of the model as a double value.
+     * @throws IllegalArgumentException if tp or fp is negative.
+     */
     public static double precision(double tp, double fp) {
+        if (tp < 0 || fp < 0) {
+            throw new IllegalArgumentException("True positives (tp) and false positives (fp) must be non-negative.");
+        }
+
         return tp / (tp + fp);
     }
 
+    /**
+     * Calculates the recall score for a binary classification model.
+     * 
+     * Recall, also known as sensitivity, is the ratio of true positives to the sum
+     * of true positives and false negatives.
+     * 
+     * @param tp The number of true positive predictions made by the model.
+     * @param fn The number of false negative predictions made by the model.
+     * @return The recall score, a value between 0 and 1.
+     * @throws IllegalArgumentException if tp or fn is negative.
+     */
     public static double recall(double tp, double fn) {
+        if (tp < 0 || fn < 0) {
+            throw new IllegalArgumentException("True positives and false negatives must be non-negative.");
+        }
+
         return tp / (tp + fn);
     }
 
+    /**
+     * Calculates precision, recall, and F1 score based on true positives, false
+     * positives, and false negatives.
+     * 
+     * @param tp The number of true positives.
+     * @param fp The number of false positives.
+     * @param fn The number of false negatives.
+     * @return An array of doubles containing precision, recall, and F1 score in
+     *         that order.
+     * @throws IllegalArgumentException if any of the input values are negative.
+     */
     public static double[] scoresFunc(double tp, double fp, double fn) {
+        if (tp < 0 || fp < 0 || fn < 0) {
+            throw new IllegalArgumentException("Input values cannot be negative.");
+        }
+
         double[] ret_list = new double[3];
         ret_list[0] = precision(tp, fp);
         ret_list[1] = recall(tp, fn);
@@ -254,7 +347,19 @@ public class Evaluator {
         return ret_list;
     }
 
+    /**
+     * Calculates the F1 score based on precision and recall values.
+     * 
+     * @param prec The precision value, a double between 0 and 1.
+     * @param rec  The recall value, a double between 0 and 1.
+     * @return The F1 score, a double between 0 and 1.
+     * @throws IllegalArgumentException if prec or rec is not between 0 and 1.
+     */
     public static double f1score(double prec, double rec) {
+        if (prec < 0 || prec > 1 || rec < 0 || rec > 1) {
+            throw new IllegalArgumentException("Precision and recall values must be between 0 and 1.");
+        }
+
         return 2 * prec * rec / (prec + rec);
     }
 
