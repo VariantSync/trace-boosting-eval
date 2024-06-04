@@ -1,4 +1,4 @@
-package org.variantsync.boosting.eval;
+package org.variantsync.boosting.eval.util;
 
 import de.ovgu.featureide.fm.core.base.IFeature;
 import org.tinylog.Logger;

@@ -1,4 +1,4 @@
-package org.variantsync.boosting.eval;
+package org.variantsync.boosting.eval.experiments;
 
 import org.tinylog.Logger;
 

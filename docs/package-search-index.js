@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.variantsync.boosting.eval"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.variantsync.boosting.eval"},{"l":"org.variantsync.boosting.eval.experiments"},{"l":"org.variantsync.boosting.eval.util"}];updateSearchResults();

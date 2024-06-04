@@ -1,4 +1,4 @@
-package org.variantsync.boosting.eval;
+package org.variantsync.boosting.eval.experiments;
 
 import org.logicng.formulas.Formula;
 import org.prop4j.Node;

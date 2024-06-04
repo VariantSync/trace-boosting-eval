@@ -1,4 +1,4 @@
-package org.variantsync.boosting.eval;
+package org.variantsync.boosting.eval.util;
 
 import org.variantsync.boosting.datastructure.ASTNode;
 import org.variantsync.boosting.position.ProductPosition;

@@ -1,4 +1,4 @@
-package org.variantsync.boosting.eval;
+package org.variantsync.boosting.eval.experiments;
 
 import com.google.gson.JsonObject;
 import org.apache.commons.io.FileUtils;
@@ -6,6 +6,9 @@ import org.tinylog.Logger;
 import org.variantsync.boosting.TraceBoosting;
 import org.variantsync.boosting.datastructure.Feature;
 import org.variantsync.boosting.datastructure.MainTree;
+import org.variantsync.boosting.eval.util.RandomMapping;
+import org.variantsync.boosting.eval.util.VEVOSUtilities;
+import org.variantsync.boosting.eval.util.VariantGenerationResult;
 import org.variantsync.boosting.parsing.ESupportedLanguages;
 import org.variantsync.boosting.product.Product;
 import org.variantsync.boosting.product.ProductPassport;
@@ -73,7 +76,7 @@ public abstract class ExperimentRunner {
      * @param pathToConfig the path to the configuration file
      * @return a Config object representing the loaded configuration
      */
-    protected static Config loadSubjectSpecificConfig(String splName, Path pathToConfig) {
+    public static Config loadSubjectSpecificConfig(String splName, Path pathToConfig) {
         return new Config(pathToConfig, splName);
     }
 

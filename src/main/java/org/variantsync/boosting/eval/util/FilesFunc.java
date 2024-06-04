@@ -1,4 +1,4 @@
-package org.variantsync.boosting.eval;
+package org.variantsync.boosting.eval.util;
 
 import java.io.*;
 import java.util.Properties;

@@ -1,8 +1,10 @@
-package org.variantsync.boosting.eval;
+package org.variantsync.boosting.eval.experiments;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.tinylog.Logger;
+import org.variantsync.boosting.eval.util.FilesFunc;
+import org.variantsync.boosting.eval.util.VariantGenerationResult;
 import org.variantsync.vevos.simulation.variability.SPLCommit;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class RQRunner extends ExperimentRunner {
      *               evaluation properties file and clears the debug folders in the
      *               data directory.
      */
-    protected RQRunner(Config config) {
+    public RQRunner(Config config) {
         super(config);
         configPath = System.getProperty("user.dir") + "/data/evaluation.properties";
         FilesFunc.clearDebugFolders(System.getProperty("user.dir") + "/data");

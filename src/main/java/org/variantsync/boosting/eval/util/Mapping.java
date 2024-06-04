@@ -1,4 +1,4 @@
-package org.variantsync.boosting.eval;
+package org.variantsync.boosting.eval.util;
 
 import org.logicng.formulas.Formula;
 import org.logicng.io.parsers.PropositionalParser;

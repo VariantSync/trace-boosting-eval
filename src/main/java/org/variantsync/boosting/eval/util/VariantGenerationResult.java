@@ -1,4 +1,4 @@
-package org.variantsync.boosting.eval;
+package org.variantsync.boosting.eval.util;
 
 import org.variantsync.vevos.simulation.variability.pc.groundtruth.GroundTruth;
 
