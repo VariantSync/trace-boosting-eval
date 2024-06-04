@@ -9,6 +9,9 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Utilities class for distributing mappings randomly
+ */
 public class NormalDistributionMapping {
     /**
      * Distributes mappings for products based on a given percentage and standard

@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.Properties;
 import java.util.Scanner;
 
+/**
+ * Utilities class for dealing with files.
+ */
 public class FilesFunc {
 
     /**

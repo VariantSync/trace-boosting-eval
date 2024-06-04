@@ -13,6 +13,9 @@ import org.variantsync.vevos.simulation.variability.pc.Artefact;
 
 import java.nio.file.Path;
 
+/**
+ * Class for controlling mappings of features to artifacts.
+ */
 public class Mapping {
 
     /**
