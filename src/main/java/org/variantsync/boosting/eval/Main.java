@@ -35,18 +35,31 @@ public class Main {
      *                              thread pool
      */
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
-        Path configPath = Path.of(System.getProperty("user.dir") + "/data/evaluation.properties");
+        if (args.length < 1) {
+            System.err.println("Name of properties file required");
+            System.exit(1);
+        }
+        String propertiesFilename = args[0];
+        Path configPath = Path.of(System.getProperty("user.dir") + "/data/" + propertiesFilename);
         // Load the main config to determine the subjects
         List<Path> repositoryPaths = prepareRepos(new Config(configPath));
 
         try (ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())) {
             List<Future<String>> futures = new ArrayList<>();
             for (Path splRepoPath : repositoryPaths) {
+                Config rqConfig = ExperimentRunner.loadSubjectSpecificConfig(splRepoPath.getFileName().toString(),
+                        configPath);
+                Path splName = splRepoPath.getFileName();
+
+                List<String> subjects = rqConfig.getSubjects();
+                if (!subjects.isEmpty() && !subjects.contains(splName.toString())) {
+                    Logger.info("Skipping " + splName);
+                    continue;
+                }
+
+                Path groundTruthDir = rqConfig.groundTruthDir().resolve(splName);
+
                 futures.add(threadPool.submit(() -> {
-                    Config rqConfig = ExperimentRunner.loadSubjectSpecificConfig(splRepoPath.getFileName().toString(),
-                            configPath);
-                    Path splName = splRepoPath.getFileName();
-                    Path groundTruthDir = rqConfig.groundTruthDir().resolve(splName);
                     var utilities = new VEVOSUtilities();
                     List<SPLCommit> commitGroundTruths;
                     synchronized (Main.class) {

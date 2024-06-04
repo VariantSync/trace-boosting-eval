@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -22,6 +25,7 @@ public class Config {
     private static final String MAPPING_PERCENTAGE = "experiment.mapping-percentage";
     private static final String EXPERIMENT_REPO_DIR = "experiment.repo-dir";
     private static final String EXPERIMENT_MAX_FEATURES = "experiment.max-features";
+    private static final String EXPERIMENT_SUBJECTS = "experiment.subjects";
 
     private int strip = 0;
     private final Properties properties;
@@ -170,6 +174,14 @@ public class Config {
     }
 
     /**
+     * Returns the subjects to consider the experiments. Empty if all subjects
+     * should be considered.
+     */
+    public List<String> getSubjects() {
+        return parseNameList(this.properties.getProperty(EXPERIMENT_SUBJECTS));
+    }
+
+    /**
      * Parses a string representation of a list of integers and returns an array of
      * integers.
      * 
@@ -184,6 +196,26 @@ public class Config {
         int[] result = new int[tokens.length];
         for (int i = 0; i < tokens.length; i++) {
             result[i] = Integer.parseInt(tokens[i].trim());
+        }
+        return result;
+    }
+
+    /**
+     * Parses a string representation of a list of names and returns an array of
+     * Strings.
+     * 
+     * @param str the string representation of the list of names, in the format
+     *            "[Name1, Name2, Name3]"
+     * @return an array of Strings parsed from the input string
+     */
+    private static List<String> parseNameList(String str) {
+        if (!str.contains(",")) {
+            return Collections.singletonList(str);
+        }
+        String[] names = str.substring(1, str.length() - 1).split(",");
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < names.length; i++) {
+            result.add(names[i].trim());
         }
         return result;
     }

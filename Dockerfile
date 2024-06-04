@@ -43,14 +43,15 @@ RUN mkdir data/result
 COPY data/ground-truth ./data/ground-truth 
 COPY data/*properties ./data/ 
 COPY data/datasets.md ./data/datasets.md
+COPY data/repos ./data/repos
 
 # Copy all relevant files from the previous stage
 COPY --from=0 /home/user/target* ./
 
 # Adjust permissions
 RUN chown user:user /home/user -R
-RUN chmod +x run-simulation.sh
+RUN chmod +x run-experiments.sh
 RUN chmod +x entrypoint.sh
 
-ENTRYPOINT ["./entrypoint.sh", "./run-simulation.sh"]
+ENTRYPOINT ["./entrypoint.sh", "./run-experiments.sh"]
 USER user
