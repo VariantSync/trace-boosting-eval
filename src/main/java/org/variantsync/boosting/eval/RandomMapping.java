@@ -31,7 +31,6 @@ public class RandomMapping {
      * @param gtMap       a map containing ground truth data for each product
      * @param percentage  the percentage of mapping to apply
      * @param strip       the strip value to use for distribution
-     * @return void
      */
     public static void distributeMappings(List<Product> preproducts, Map<String, GroundTruth> gtMap, int percentage,
             int strip) {

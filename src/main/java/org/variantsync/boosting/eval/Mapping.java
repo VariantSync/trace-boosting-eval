@@ -61,11 +61,6 @@ public class Mapping {
      * @param variantsDirectory The directory where the .csv files for the variants
      *                          are stored
      * @return An Artefact object representing the extracted PC
-     * @throws IllegalArgumentException if the product is null or variantsDirectory
-     *                                  is null
-     * @throws FileNotFoundException    if the .csv file for the variant is not
-     *                                  found in the variantsDirectory
-     * @throws IOException              if there is an error reading the .csv file
      */
     public static Artefact findPC(Product product, Path variantsDirectory) {
         Artefact artefact;

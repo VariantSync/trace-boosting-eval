@@ -127,10 +127,6 @@ public class Config {
      * @return the Path object representing the experiment work directory for the
      *         boosting algorithm
      * 
-     * @throws NullPointerException if the properties object or splName is null
-     * 
-     * @throws InvalidPathException if the experiment work directory specified in
-     *                              the properties file is invalid
      */
     public Path experimentWorkDirBoosting() {
         return Path.of(this.properties.getProperty(EXPERIMENT_WORK_DIR_BOOSTING)).resolve(this.splName);
