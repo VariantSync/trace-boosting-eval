@@ -9,8 +9,14 @@
 - Integrate data analysis with Python into the Docker setup
 - Test setup 
   - Linux 
+    - replication 
+    - validation
   - Windows 
+    - replication 
+    - validation
   - MacOS
+    - replication 
+    - validation
 
 # Evaluation Artifact for "Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing"
 
