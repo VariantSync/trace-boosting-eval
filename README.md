@@ -6,7 +6,6 @@
 - Implement setup validation!
 - replication argument 
 - rename execution script
-- automated download and unpacking of data in Docker container
 
 # Evaluation Artifact for "Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing"
 

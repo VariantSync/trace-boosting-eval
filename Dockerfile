@@ -24,7 +24,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Update the package list and upgrade the system without any prompts
 RUN apt-get update && apt-get upgrade -y
 
-RUN apt-get install bash git python3 unzip -y
+RUN apt-get install bash git python3 unzip curl -y
 
 ARG GROUP_ID
 ARG USER_ID
@@ -40,10 +40,8 @@ COPY docker/* ./
 COPY python ./python
 RUN mkdir data
 RUN mkdir data/result
-COPY data/ground-truth ./data/ground-truth 
-COPY data/*properties ./data/ 
-COPY data/datasets.md ./data/datasets.md
-COPY data/repos ./data/repos
+COPY data ./data 
+COPY setup.sh ./setup.sh
 
 # Copy all relevant files from the previous stage
 COPY --from=0 /home/user/target* ./
@@ -52,6 +50,7 @@ COPY --from=0 /home/user/target* ./
 RUN chown user:user /home/user -R
 RUN chmod +x run-experiments.sh
 RUN chmod +x entrypoint.sh
+RUN chmod +x setup.sh
 
 ENTRYPOINT ["./entrypoint.sh", "./run-experiments.sh"]
 USER user
