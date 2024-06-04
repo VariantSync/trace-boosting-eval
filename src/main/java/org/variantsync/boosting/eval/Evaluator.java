@@ -20,19 +20,21 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Class for evaluating the result of a feature trace run.
+ * 
  * @author sandra
  */
 public class Evaluator {
     Map<Integer, char[]> binaryMap = new HashMap<>();
     Map<String, boolean[]> truthTable = new HashMap<>();
     Map<String, Double> truePositiveAmount = new HashMap<>();
-    private final TraceBoosting ecco_light;
-    final int noOfFeatures; // where does this come from?
+    private final TraceBoosting traceBoosting;
+    final int noOfFeatures;
     final int tableSize;
 
-    public Evaluator(final TraceBoosting ecco_light) {
-        this.ecco_light = ecco_light;
-        this.noOfFeatures = this.ecco_light.getAllFeatures().size();
+    public Evaluator(final TraceBoosting traceBoosting) {
+        this.traceBoosting = traceBoosting;
+        this.noOfFeatures = this.traceBoosting.getAllFeatures().size();
         tableSize = (int) Math.pow(2, noOfFeatures);
         for (int i = 0; i < tableSize; i++) {
             binaryMap.put(i, String.format("%0" + noOfFeatures + "d", Integer.parseInt(Integer.toBinaryString(i)))
@@ -45,7 +47,7 @@ public class Evaluator {
         double[] return_value = { 0.0, 0.0, 0.0, 0.0 };
         int counter = 0;
         String groundTruthMapping;
-        String eccoMapping;
+        String boostedMapping;
         System.out.println("number of nodes: " + maintree.getTree().getAstNodes().size());
 
         long evaluatedNodes = 0;
@@ -62,9 +64,8 @@ public class Evaluator {
                 if (productPosition.lineNumber() < 1) {
                     Result<Node, Exception> r = result.getPresenceConditionOf(new CaseSensitivePath(positionPath));
                     if (r.isFailure()) {
-                        // Ecco also considers folders as nodes
-                        // Folders have no value in the ground truth and thus no presence condition
-                        // We simply skip these cases
+                        // Our algorithm also considers folders as nodes Folders have no value in the
+                        // ground truth and thus no presence condition We simply skip these cases
                         continue;
                     } else {
                         pc = r.getSuccess();
@@ -103,14 +104,14 @@ public class Evaluator {
                     }
                     groundTruthMapping = groundTruthMapping.replaceAll("-", "!");
 
-                    eccoMapping = f.cnf().toString();
-                    eccoMapping = eccoMapping.replaceAll("~", "!");
+                    boostedMapping = f.cnf().toString();
+                    boostedMapping = boostedMapping.replaceAll("~", "!");
 
-                    if (eccoMapping.equals("$true") | eccoMapping.equals("True")) {
-                        eccoMapping = "true";
+                    if (boostedMapping.equals("$true") | boostedMapping.equals("True")) {
+                        boostedMapping = "true";
                     }
 
-                    double[] results = compareMappings(groundTruthMapping, eccoMapping);
+                    double[] results = compareMappings(groundTruthMapping, boostedMapping);
                     return_value = new double[] { return_value[0] + results[0], return_value[1] + results[1],
                             return_value[2] + results[2], return_value[3] + results[3] };
 
@@ -194,7 +195,7 @@ public class Evaluator {
     public boolean eval_truth_line(String mapping, int lineNumber) {
         char[] bin = binaryMap.get(lineNumber);
         int i = -1;
-        for (Feature feature : this.ecco_light.getAllFeatures()) {
+        for (Feature feature : this.traceBoosting.getAllFeatures()) {
             String featureName = feature.getName();
             String negatedFeatureName = "!" + featureName;
             i++;

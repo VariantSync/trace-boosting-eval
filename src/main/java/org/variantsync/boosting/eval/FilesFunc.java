@@ -25,11 +25,11 @@ public class FilesFunc {
         if (count == -1) {
             // Update the value for key1
             properties.setProperty("experiment.work-dir-vevos", "data/debug");
-            properties.setProperty("experiment.work-dir-ecco", "data/debug/ecco");
+            properties.setProperty("experiment.work-dir-boosting", "data/debug/boosting");
         } else {
 
             properties.setProperty("experiment.work-dir-vevos", "data/debug" + count);
-            properties.setProperty("experiment.work-dir-ecco", "data/debug" + count + "/ecco");
+            properties.setProperty("experiment.work-dir-boosting", "data/debug" + count + "/boosting");
         }
 
         // Save the updated properties to the file

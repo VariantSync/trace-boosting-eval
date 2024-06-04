@@ -83,8 +83,8 @@ public abstract class ExperimentRunner {
             FileUtils.deleteDirectory(configGenerationDir.toFile());
         }
 
-        if (Files.exists(config.experimentWorkDirEcco())) {
-            FileUtils.deleteDirectory(config.experimentWorkDirEcco().toFile());
+        if (Files.exists(config.experimentWorkDirBoosting())) {
+            FileUtils.deleteDirectory(config.experimentWorkDirBoosting().toFile());
         }
 
         // Sample and generate variants for each commit
@@ -105,33 +105,27 @@ public abstract class ExperimentRunner {
 
     public double[] conductExperiment(VariantGenerationResult variantGenerationResult, int percentage,
             double standardDeviation) {
-        // initECCO
-        TraceBoosting ecco_light = initECCO(
+        TraceBoosting traceBoosting = initBoosting(
                 variantGenerationResult.variantGenerationDir(),
                 variantGenerationResult.variantGroundTruthMap(),
                 variantGenerationResult.variantConfigFileMap());
-        // init products in ECCO, they are unmapped
-        List<Product> products = ecco_light.getProducts();
+
+        List<Product> products = traceBoosting.getProducts();
 
         // mapping
         RandomMapping.distributeMappings(products, variantGenerationResult.variantGroundTruthMap(), percentage,
                 config.getStrip());
-        // deleting all input product file because saving new file after mapping does
-        // not replace the old one
-        // deleteInputfiles(ecco_light.getInputFolder());
-        // save new files
-        // saveProducts(products, ecco_light.getInputFolder());
 
-        System.out.println("ECCO computing...");
+        System.out.println("Boosting...");
         long start = System.currentTimeMillis();
-        MainTree mainTree = ecco_light.computeMappings();
+        MainTree mainTree = traceBoosting.computeMappings();
         long elapsedTimeMillis = System.currentTimeMillis() - start;
         System.out.println("comparing... ");
         // Features that have been sampled for the products and are implemented by at
         // least one product. Only these features are relevant for the evaluation
         Set<String> relevantFeatures = products.stream().flatMap(p -> p.getFeatures().stream().map(Feature::getName))
                 .collect(Collectors.toSet());
-        Evaluator evaluator = new Evaluator(ecco_light);
+        Evaluator evaluator = new Evaluator(traceBoosting);
         double[] results = evaluator.compare(mainTree, variantGenerationResult.variantGroundTruthMap(),
                 relevantFeatures, config.getStrip());
         System.out.println("scoring.... ");
@@ -140,22 +134,20 @@ public abstract class ExperimentRunner {
         return new double[] { results[0] + results[1], funcScores[0], funcScores[1], funcScores[2], elapsedTimeMillis };
     }
 
-    public TraceBoosting initECCO(Path variantsDirectory, Map<String, GroundTruth> gtMap,
+    public TraceBoosting initBoosting(Path variantsDirectory, Map<String, GroundTruth> gtMap,
             Map<String, Path> configFileMap) {
-        // initECCO
         List<ProductPassport> productPassports = new ArrayList<>();
         for (Map.Entry<String, GroundTruth> gtEntry : gtMap.entrySet()) {
             String variantName = gtEntry.getKey();
             productPassports.add(new ProductPassport(variantName, variantsDirectory.resolve(variantName),
                     configFileMap.get(variantName)));
         }
-        System.out.println("build Ecco object");
-        TraceBoosting ecco_light = new TraceBoosting(productPassports, config.experimentWorkDirEcco(),
+        System.out.println("build TraceBoosting object");
+        TraceBoosting traceBoosting = new TraceBoosting(productPassports, config.experimentWorkDirBoosting(),
                 ESupportedLanguages.LINES);
-        // ecco_light.initialize();
         System.out.println("initial done");
 
-        return ecco_light;
+        return traceBoosting;
     }
 
     protected JsonObject createJSONProperties() {

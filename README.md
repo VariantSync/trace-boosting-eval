@@ -1,4 +1,4 @@
-# Ecco Eval
+# Trace boosting Eval
 
 ## Docker setup 
 - install docker 

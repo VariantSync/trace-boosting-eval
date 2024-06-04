@@ -17,8 +17,7 @@ public class Mapping {
 
     /**
      * set mapping for a single Node depending on PCs of the variant taken from
-     * VEVOS
-     * and translate it to the ECCO PC-format
+     * VEVOS and translate it to the internal PC-format
      *
      * @param result          PCs of the variant which the node responds to
      * @param node            the node which we want to map it
