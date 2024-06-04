@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import org.tinylog.Logger;
 import org.variantsync.vevos.simulation.variability.SPLCommit;

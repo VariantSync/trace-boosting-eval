@@ -1,14 +1,14 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import java.io.*;
 import java.util.Properties;
 import java.util.Scanner;
 
-
 public class FilesFunc {
 
     /**
-     * the function is used to change the debug folder path in properties file after each experiment
+     * the function is used to change the debug folder path in properties file after
+     * each experiment
      * because we cant delete the folder due to open files in Vevo
      *
      * @param count if -1 reset to origin
@@ -35,7 +35,7 @@ public class FilesFunc {
         // Save the updated properties to the file
         try (OutputStream outputStream = new FileOutputStream(filePath)) {
             properties.store(outputStream, null);
-            //System.out.println("Updated config.properties file.");
+            // System.out.println("Updated config.properties file.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,7 +78,8 @@ public class FilesFunc {
         // check the existance of the file
         if (file.exists()) {
             // if exist then change the name of the file to be add
-            filename = filepath + "/" + file.getParentFile().listFiles().length + "_experiment_result_" + splName + ".json";
+            filename = filepath + "/" + file.getParentFile().listFiles().length + "_experiment_result_" + splName
+                    + ".json";
             file = new File(filename);
         }
         file.getParentFile().mkdirs();
@@ -92,14 +93,17 @@ public class FilesFunc {
     /**
      * save result to file old version
      */
-    public static void writeFiles(double[][] scores, int scenarioSize, int[] percentMappings, String scenario, int runs, String filepath) throws IOException {
+    public static void writeFiles(double[][] scores, int scenarioSize, int[] percentMappings, String scenario, int runs,
+            String filepath) throws IOException {
         for (int i = 0; i < percentMappings.length; i++) {
-            String filename = filepath + "/0" + scenario + scenarioSize + "variants" + percentMappings[i] + "percent.dat";
+            String filename = filepath + "/0" + scenario + scenarioSize + "variants" + percentMappings[i]
+                    + "percent.dat";
             File file = new File(filename);
             // check the existance of the file
             if (file.exists()) {
                 // if exist then change the name of the file to be add
-                filename = filepath + "/" + file.getParentFile().listFiles().length + scenario + scenarioSize + "variants" + percentMappings[i] + "percent.dat";
+                filename = filepath + "/" + file.getParentFile().listFiles().length + scenario + scenarioSize
+                        + "variants" + percentMappings[i] + "percent.dat";
                 file = new File(filename);
             }
             file.getParentFile().mkdirs();

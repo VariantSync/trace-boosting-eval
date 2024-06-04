@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import org.variantsync.vevos.simulation.variability.pc.groundtruth.GroundTruth;
 
@@ -6,5 +6,5 @@ import java.nio.file.Path;
 import java.util.Map;
 
 public record VariantGenerationResult(Path variantGenerationDir, Map<String, GroundTruth> variantGroundTruthMap,
-                                      Map<String, Path> variantConfigFileMap) {
+        Map<String, Path> variantConfigFileMap) {
 }

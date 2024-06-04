@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import org.tinylog.Logger;
 
@@ -46,7 +46,8 @@ public class Config {
     }
 
     /**
-     * @return the list of number of variants that should be sampled for each experiment run specified for RQ2.
+     * @return the list of number of variants that should be sampled for each
+     *         experiment run specified for RQ2.
      */
     public int[] sampleSize() {
         return parseListInt(this.properties.getProperty(EXPERIMENT_SAMPLE_SIZE));
@@ -74,14 +75,16 @@ public class Config {
     }
 
     /**
-     * @return the working directory in which all operations of VEVOS should take place
+     * @return the working directory in which all operations of VEVOS should take
+     *         place
      */
     public Path experimentWorkDirVevos() {
         return Path.of(this.properties.getProperty(EXPERIMENT_WORK_DIR_VEVOS)).resolve(this.splName);
     }
 
     /**
-     * @return the working directory in which all operations of ECCO should take place
+     * @return the working directory in which all operations of ECCO should take
+     *         place
      */
     public Path experimentWorkDirEcco() {
         return Path.of(this.properties.getProperty(EXPERIMENT_WORK_DIR_ECCO)).resolve(this.splName);

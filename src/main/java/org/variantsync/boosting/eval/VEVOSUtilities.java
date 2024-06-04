@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import de.ovgu.featureide.fm.core.base.IFeature;
 import org.tinylog.Logger;
@@ -40,7 +40,8 @@ public class VEVOSUtilities {
     private static final Path DATASET_FILE = Path.of("data/datasets.md");
 
     /**
-     * Clones all datasets listed in the default dataset file to the cloneBaseDir. Returns the paths
+     * Clones all datasets listed in the default dataset file to the cloneBaseDir.
+     * Returns the paths
      * to which the SPLs where cloned.
      **/
     public List<Path> cloneRepositories(Path cloneBaseDir) {
@@ -48,7 +49,8 @@ public class VEVOSUtilities {
     }
 
     /**
-     * Clones all datasets listed in the given dataset file to the cloneBaseDir. Returns the paths
+     * Clones all datasets listed in the given dataset file to the cloneBaseDir.
+     * Returns the paths
      * to which the SPLs where cloned.
      **/
     public List<Path> cloneRepositories(Path datasetFile, Path cloneBaseDir) {
@@ -86,7 +88,8 @@ public class VEVOSUtilities {
     }
 
     /**
-     * Loads the ground truth from the given directory and returns all SPLCommit objects that
+     * Loads the ground truth from the given directory and returns all SPLCommit
+     * objects that
      * represent successfully loaded ground truths for specific commits.
      **/
     public List<SPLCommit> loadGroundTruth(Path groundTruthPath) {
@@ -119,7 +122,8 @@ public class VEVOSUtilities {
     public Sample sampleVariants(SPLCommit commit, int variantCount, int maxFeatures) {
         Logger.debug("Loading feature model.");
         try {
-            List<IFeature> features = Files.readAllLines(commit.getFeatureModelPath()).stream().map(SimpleFeature::new).collect(Collectors.toList());
+            List<IFeature> features = Files.readAllLines(commit.getFeatureModelPath()).stream().map(SimpleFeature::new)
+                    .collect(Collectors.toList());
             Logger.debug("Sampling variants");
             return SimpleSampler.CreateRandomSampler(variantCount, maxFeatures / 2, maxFeatures).sample(features);
         } catch (IOException e) {
@@ -129,17 +133,22 @@ public class VEVOSUtilities {
     }
 
     /**
-     * Generate all variants in the given sample to variantGenerationDir. The generation is done for
+     * Generate all variants in the given sample to variantGenerationDir. The
+     * generation is done for
      * a specific SPL of which we require the source code.
-     * This SPL is given as a Path to its root directory (i.e., the path to which it was cloned).
+     * This SPL is given as a Path to its root directory (i.e., the path to which it
+     * was cloned).
      * The generation is done for one commit at a time.
-     * Note that the generation directory has to be cleaned before new variants are generated.
+     * Note that the generation directory has to be cleaned before new variants are
+     * generated.
      * <p>
-     * The method returns a map of variants to their ground truth. The ground truth can be accessed
-     * via the artefact() method and contains the presence conditions, feature mappings, etc.
+     * The method returns a map of variants to their ground truth. The ground truth
+     * can be accessed
+     * via the artefact() method and contains the presence conditions, feature
+     * mappings, etc.
      **/
     public Map<String, GroundTruth> generateVariants(Path pathToSPL, Path variantGenerationDir,
-                                                     SPLCommit commit, Sample sample, ArtefactFilter<SourceCodeFile> fileFilter) {
+            SPLCommit commit, Sample sample, ArtefactFilter<SourceCodeFile> fileFilter) {
         Map<String, GroundTruth> variantGroundTruths = new HashMap<>();
 
         for (Variant variant : sample.variants()) {
@@ -158,19 +167,24 @@ public class VEVOSUtilities {
     }
 
     /**
-     * Writes the configurations of all variants in the sample to individual files that are created in the given directory.
+     * Writes the configurations of all variants in the sample to individual files
+     * that are created in the given directory.
      *
-     * @param pathToConfigurationDir The directory in which the configuration files are to be created
-     * @param variantSample          The sample of variants for which the configuration files are to be created
+     * @param pathToConfigurationDir The directory in which the configuration files
+     *                               are to be created
+     * @param variantSample          The sample of variants for which the
+     *                               configuration files are to be created
      * @return A map of variant to configuration file
      * @throws IOException If creating or writing the files is not possible
      */
-    public Map<String, Path> configurationsToFile(Path pathToConfigurationDir, Sample variantSample) throws IOException {
+    public Map<String, Path> configurationsToFile(Path pathToConfigurationDir, Sample variantSample)
+            throws IOException {
         Files.createDirectories(pathToConfigurationDir);
 
         Map<String, Path> fileMap = new HashMap<>();
         for (Variant variant : variantSample) {
-            // We usually work with FeatureIDEConfigurations, which offer details about the features
+            // We usually work with FeatureIDEConfigurations, which offer details about the
+            // features
             IConfiguration configuration = variant.getConfiguration();
             StringBuilder sb = new StringBuilder();
             for (IFeature feature : configuration.getFeatures()) {
@@ -189,7 +203,7 @@ public class VEVOSUtilities {
      * Generate a single variant and returns its ground truth.
      **/
     private GroundTruth generateVariant(Path pathToSPL, Path variantGenerationDir, SPLCommit commit,
-                                        Variant variant, ArtefactFilter<SourceCodeFile> fileFilter) {
+            Variant variant, ArtefactFilter<SourceCodeFile> fileFilter) {
         Logger.debug("Generating variant " + variant.getName());
         try {
             Files.createDirectories(variantGenerationDir.resolve(variant.getName()));
@@ -199,8 +213,7 @@ public class VEVOSUtilities {
             throw new RuntimeException();
         }
         final Lazy<Optional<Artefact>> loadPresenceConditions = commit.presenceConditionsFallback();
-        final VariantGenerationOptions generationOptions =
-                VariantGenerationOptions.ExitOnError(true, fileFilter);
+        final VariantGenerationOptions generationOptions = VariantGenerationOptions.ExitOnError(true, fileFilter);
         final Artefact pcs = loadPresenceConditions.run().orElseThrow();
         var result = pcs.generateVariant(variant, new CaseSensitivePath(pathToSPL),
                 new CaseSensitivePath(variantGenerationDir.resolve(variant.getName())),
@@ -212,15 +225,15 @@ public class VEVOSUtilities {
 
         }
 
-
         // writing pcs of the variant
         GroundTruth groundTruth = result.getSuccess();
-        //try {
-        //    final Artefact presenceConditionsOfVariant = groundTruth.variant();
-        //    Resources.Instance().write(Artefact.class, presenceConditionsOfVariant, variantGenerationDir.resolve(variant.getName()).resolve("pcs.variant.csv"));
-        //} catch (Resources.ResourceIOException e) {
-        //    System.out.println(Arrays.toString(e.getStackTrace()));
-        //}
+        // try {
+        // final Artefact presenceConditionsOfVariant = groundTruth.variant();
+        // Resources.Instance().write(Artefact.class, presenceConditionsOfVariant,
+        // variantGenerationDir.resolve(variant.getName()).resolve("pcs.variant.csv"));
+        // } catch (Resources.ResourceIOException e) {
+        // System.out.println(Arrays.toString(e.getStackTrace()));
+        // }
         return groundTruth;
     }
 }

@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import de.hub.mse.variantsync.boosting.TraceBoosting;
 import de.hub.mse.variantsync.boosting.ecco.ASTNode;
@@ -41,8 +41,8 @@ public class Evaluator {
     }
 
     public double[] compare(MainTree maintree, Map<String, GroundTruth> product_pc, Set<String> relevantFeatures,
-                            int strip) {
-        double[] return_value = {0.0, 0.0, 0.0, 0.0};
+            int strip) {
+        double[] return_value = { 0.0, 0.0, 0.0, 0.0 };
         int counter = 0;
         String groundTruthMapping;
         String eccoMapping;
@@ -73,7 +73,7 @@ public class Evaluator {
                     // positionPath =
                     // Path.of(positionPathString.substring(positionPathString.indexOf("src")));
                     pc = result.getPresenceConditionOf(new CaseSensitivePath(positionPath),
-                                    productPosition.lineNumber())
+                            productPosition.lineNumber())
                             .expect("Not able to load PC for " + positionPath + " line "
                                     + productPosition.lineNumber());
                 }
@@ -111,8 +111,8 @@ public class Evaluator {
                     }
 
                     double[] results = compareMappings(groundTruthMapping, eccoMapping);
-                    return_value = new double[]{return_value[0] + results[0], return_value[1] + results[1],
-                            return_value[2] + results[2], return_value[3] + results[3]};
+                    return_value = new double[] { return_value[0] + results[0], return_value[1] + results[1],
+                            return_value[2] + results[2], return_value[3] + results[3] };
 
                 }
                 counter++;
@@ -124,8 +124,8 @@ public class Evaluator {
         }
 
         Logger.info("Evaluated the mapping of " + evaluatedNodes + " nodes.");
-        return new double[]{return_value[0] / counter, return_value[1] / counter,
-                return_value[2] / counter, return_value[3] / counter};
+        return new double[] { return_value[0] / counter, return_value[1] / counter,
+                return_value[2] / counter, return_value[3] / counter };
     }
 
     public double[] compareMappings(String groundTruth, String mapping) {
@@ -164,7 +164,7 @@ public class Evaluator {
             }
         }
         truePositiveAmount.putIfAbsent(mapping, tp);
-        return new double[]{tp / gtSize, tn / gtSize, fp / gtSize, fn / gtSize};
+        return new double[] { tp / gtSize, tn / gtSize, fp / gtSize, fn / gtSize };
     }
 
     public boolean[] eval_truth_table(String mapping) {

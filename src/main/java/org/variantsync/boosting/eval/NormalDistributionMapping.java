@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import de.hub.mse.variantsync.boosting.ecco.ASTNode;
 import de.hub.mse.variantsync.boosting.position.ProductPosition;
@@ -22,7 +22,7 @@ public class NormalDistributionMapping {
      * @return products with mapped nodes
      */
     public static Product[] distributeMappings(Product[] preproducts, Path variantsDirectory,
-                                               Map<String, Artefact> product_pc, double percentage, double standardDeviation) {
+            Map<String, Artefact> product_pc, double percentage, double standardDeviation) {
         int numberOfAllNodes = 0;
         for (Product product : preproducts) {
             numberOfAllNodes += product.getProductAst().getAstNodes().size();

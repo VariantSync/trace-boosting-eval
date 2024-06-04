@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import com.google.gson.JsonObject;
 import de.hub.mse.variantsync.boosting.TraceBoosting;
@@ -39,7 +39,7 @@ public abstract class ExperimentRunner {
     private static final ArtefactFilter<SourceCodeFile> ARGOUML_FILE_FILTER = sourceCodeFile -> sourceCodeFile.getFile()
             .path().startsWith("src");
     private static final ArtefactFilter<SourceCodeFile> OTHER_FILE_FILTER = sourceCodeFile -> {
-        String[] validExtensions = new String[]{".c", ".h", ".cpp", ".hpp"};
+        String[] validExtensions = new String[] { ".c", ".h", ".cpp", ".hpp" };
         String path = sourceCodeFile.getFile().path().getFileName().toString();
         for (String extension : validExtensions) {
             if (path.endsWith(extension)) {
@@ -104,7 +104,7 @@ public abstract class ExperimentRunner {
     }
 
     public double[] conductExperiment(VariantGenerationResult variantGenerationResult, int percentage,
-                                      double standardDeviation) {
+            double standardDeviation) {
         // initECCO
         TraceBoosting ecco_light = initECCO(
                 variantGenerationResult.variantGenerationDir(),
@@ -114,7 +114,8 @@ public abstract class ExperimentRunner {
         List<Product> products = ecco_light.getProducts();
 
         // mapping
-        RandomMapping.distributeMappings(products, variantGenerationResult.variantGroundTruthMap(), percentage, config.getStrip());
+        RandomMapping.distributeMappings(products, variantGenerationResult.variantGroundTruthMap(), percentage,
+                config.getStrip());
         // deleting all input product file because saving new file after mapping does
         // not replace the old one
         // deleteInputfiles(ecco_light.getInputFolder());
@@ -136,11 +137,11 @@ public abstract class ExperimentRunner {
         System.out.println("scoring.... ");
         double[] funcScores = Evaluator.scoresFunc(results[0], results[2], results[3]);
 
-        return new double[]{results[0] + results[1], funcScores[0], funcScores[1], funcScores[2], elapsedTimeMillis};
+        return new double[] { results[0] + results[1], funcScores[0], funcScores[1], funcScores[2], elapsedTimeMillis };
     }
 
     public TraceBoosting initECCO(Path variantsDirectory, Map<String, GroundTruth> gtMap,
-                                  Map<String, Path> configFileMap) {
+            Map<String, Path> configFileMap) {
         // initECCO
         List<ProductPassport> productPassports = new ArrayList<>();
         for (Map.Entry<String, GroundTruth> gtEntry : gtMap.entrySet()) {

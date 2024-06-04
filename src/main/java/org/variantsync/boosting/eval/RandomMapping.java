@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import de.hub.mse.variantsync.boosting.TraceBoosting;
 import de.hub.mse.variantsync.boosting.ecco.ASTNode;
@@ -22,7 +22,7 @@ public class RandomMapping {
      * @return products with mapped nodes
      */
     public static void distributeMappings(List<Product> preproducts, Map<String, GroundTruth> gtMap, int percentage,
-                                          int strip) {
+            int strip) {
         for (Product product : preproducts) {
             // loading PCs for a certen product, PC from VEVOS
             Artefact groundTruth = gtMap.get(product.getName()).variant();

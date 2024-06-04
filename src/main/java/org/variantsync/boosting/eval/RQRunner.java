@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

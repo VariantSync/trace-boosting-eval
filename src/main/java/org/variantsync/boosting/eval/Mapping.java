@@ -1,4 +1,4 @@
-package org.variantsync.traceboosting.eval;
+package org.variantsync.boosting.eval;
 
 import de.hub.mse.variantsync.boosting.TraceBoosting;
 import de.hub.mse.variantsync.boosting.ecco.ASTNode;
@@ -40,7 +40,7 @@ public class Mapping {
         } else {
             positionPath = Path.of(positionPath.toString().substring(positionPath.toString().indexOf("src")));
             pc = result.getPresenceConditionOf(new CaseSensitivePath(positionPath),
-                            productPosition.lineNumber())
+                    productPosition.lineNumber())
                     .expect("Not able to load PC for " + positionPath + " line " + productPosition.lineNumber());
         }
 
