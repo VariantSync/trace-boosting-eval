@@ -10,8 +10,6 @@
 - automated download of data 
 - unpacking of data 
 - add hints about data
-- Javadoc building in Maven 
-- Upload Javadocs
 
 # Evaluation Artifact for "Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing"
 
