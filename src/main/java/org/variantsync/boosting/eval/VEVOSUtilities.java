@@ -30,6 +30,9 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Utility class for using the VEVOS benchmark generator.
+ */
 public class VEVOSUtilities {
 
     static {
@@ -134,18 +137,14 @@ public class VEVOSUtilities {
 
     /**
      * Generate all variants in the given sample to variantGenerationDir. The
-     * generation is done for
-     * a specific SPL of which we require the source code.
+     * generation is done for a specific SPL of which we require the source code.
      * This SPL is given as a Path to its root directory (i.e., the path to which it
-     * was cloned).
-     * The generation is done for one commit at a time.
-     * Note that the generation directory has to be cleaned before new variants are
-     * generated.
+     * was cloned). The generation is done for one commit at a time. Note that the
+     * generation directory has to be cleaned before new variants are generated.
      * <p>
      * The method returns a map of variants to their ground truth. The ground truth
-     * can be accessed
-     * via the artefact() method and contains the presence conditions, feature
-     * mappings, etc.
+     * can be accessed via the artefact() method and contains the presence
+     * conditions, feature mappings, etc.
      **/
     public Map<String, GroundTruth> generateVariants(Path pathToSPL, Path variantGenerationDir,
             SPLCommit commit, Sample sample, ArtefactFilter<SourceCodeFile> fileFilter) {
@@ -227,13 +226,6 @@ public class VEVOSUtilities {
 
         // writing pcs of the variant
         GroundTruth groundTruth = result.getSuccess();
-        // try {
-        // final Artefact presenceConditionsOfVariant = groundTruth.variant();
-        // Resources.Instance().write(Artefact.class, presenceConditionsOfVariant,
-        // variantGenerationDir.resolve(variant.getName()).resolve("pcs.variant.csv"));
-        // } catch (Resources.ResourceIOException e) {
-        // System.out.println(Arrays.toString(e.getStackTrace()));
-        // }
         return groundTruth;
     }
 }

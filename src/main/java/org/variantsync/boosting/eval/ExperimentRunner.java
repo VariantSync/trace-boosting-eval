@@ -53,7 +53,6 @@ public abstract class ExperimentRunner {
         this.config = config;
         ex_repeat = config.experimentRepeats();
         percentages = config.experimentMapping();
-        // build variant sampling scenarios ref
         sampleSizes = config.sampleSize();
         maxFeatures = config.maxFeatures();
     }

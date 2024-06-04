@@ -14,17 +14,29 @@ import org.variantsync.vevos.simulation.variability.pc.groundtruth.GroundTruth;
 
 import java.util.*;
 
+/**
+ * Class for determining random mapping distributions.
+ */
 public class RandomMapping {
     /**
-     * Mapping function
+     * Distributes mappings to products based on a given percentage.
      *
-     * @param percentage percentage of mapping
-     * @return products with mapped nodes
+     * This method takes a list of preproducts, a map of ground truth data, a
+     * percentage value, and a strip value as input parameters.
+     * It then iterates through each product in the preproducts list, retrieves the
+     * ground truth data for that product from the gtMap,
+     * and applies a distribution based on the given percentage and strip values.
+     *
+     * @param preproducts a list of products to distribute mappings to
+     * @param gtMap       a map containing ground truth data for each product
+     * @param percentage  the percentage of mapping to apply
+     * @param strip       the strip value to use for distribution
+     * @return void
      */
     public static void distributeMappings(List<Product> preproducts, Map<String, GroundTruth> gtMap, int percentage,
             int strip) {
         for (Product product : preproducts) {
-            // loading PCs for a certen product, PC from VEVOS
+            // loading PCs for a certain product, PC from VEVOS
             Artefact groundTruth = gtMap.get(product.getName()).variant();
             // get Distribution
             applyDistribution(product, groundTruth, percentage, strip);
@@ -32,13 +44,26 @@ public class RandomMapping {
     }
 
     /**
-     * generate mapping Distribution for a variant
+     * Generates a mapping distribution for a given product variant.
+     *
+     * This method takes a Product object as input and calculates a mapping
+     * distribution for the variant based on the number of AST nodes in the product.
+     * The distribution is represented as an array of integers, where each element
+     * corresponds to a node in the AST and contains a randomly generated value of
+     * either 0 or 1.
+     *
+     * @param product The Product object for which the mapping distribution is to be
+     *                generated.
+     * @return An array of integers representing the mapping distribution for the
+     *         variant, with each element containing a randomly generated value of 0
+     *         or 1.
      */
     private static Integer[] getDistribution(Product product) {
         int nodesN = product.getProductAst().getAstNodes().size();
         Integer[] dist = new Integer[nodesN];
         Arrays.fill(dist, 0);
         Random random = new Random();
+
         // Populate the array with random values (0 or 1)
         for (int i = 0; i < nodesN; i++) {
             dist[i] = random.nextInt(2); // Generates either 0 or 1
@@ -47,6 +72,25 @@ public class RandomMapping {
         return dist;
     }
 
+    /**
+     * Applies a distribution of mappings to a given product based on a ground truth
+     * artefact.
+     *
+     * This method iterates through the ASTNodes of the Product, filters out nodes
+     * with line numbers less than 1, and retrieves the presence condition of each
+     * node from the ground truth. It then shuffles the candidate nodes to randomize
+     * them and assigns mappings to a specified percentage of the nodes. The
+     * mappings are populated with random values (0 or 1) based on the presence
+     * condition of each node.
+     *
+     * @param product     The Product object to apply the distribution to
+     * @param groundTruth The Artefact object representing the ground truth
+     * @param percentage  The percentage of nodes to assign mappings to
+     * @param strip       The number of path elements to strip from the file path
+     * @throws IllegalArgumentException if the percentage is not within the range of
+     *                                  0 to 100
+     * @throws NullPointerException     if either product or groundTruth is null
+     */
     private static void applyDistribution(Product product, Artefact groundTruth, int percentage, int strip) {
         // Nodes that can be mapped
         List<ASTNode> candidateNodes = new ArrayList<>();

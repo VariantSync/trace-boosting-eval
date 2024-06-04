@@ -16,14 +16,14 @@ import java.nio.file.Path;
 public class Mapping {
 
     /**
-     * set mapping for a single Node depending on PCs of the variant taken from
-     * VEVOS and translate it to the internal PC-format
+     * Sets mapping for a single Node depending on PCs of the variant taken from
+     * VEVOS and translates it to the internal PC-format.
      *
-     * @param result          PCs of the variant which the node responds to
-     * @param node            the node which we want to map it
-     * @param productPosition the product position
+     * @param result          The PCs of the variant which the node responds to.
+     * @param node            The node to map.
+     * @param productPosition The product position.
      */
-    public static void mappNode(Artefact result, ASTNode node, ProductPosition productPosition) {
+    public static void mapNode(Artefact result, ASTNode node, ProductPosition productPosition) {
         if (result == null)
             return;
         // find PC for node
@@ -54,7 +54,18 @@ public class Mapping {
     }
 
     /**
-     * Extract PCs for a Variant from corresponding .csv file
+     * Extracts the Product Configuration (PC) for a given Product from the
+     * corresponding .csv file.
+     * 
+     * @param product           The Product for which the PC needs to be extracted
+     * @param variantsDirectory The directory where the .csv files for the variants
+     *                          are stored
+     * @return An Artefact object representing the extracted PC
+     * @throws IllegalArgumentException if the product is null or variantsDirectory
+     *                                  is null
+     * @throws FileNotFoundException    if the .csv file for the variant is not
+     *                                  found in the variantsDirectory
+     * @throws IOException              if there is an error reading the .csv file
      */
     public static Artefact findPC(Product product, Path variantsDirectory) {
         Artefact artefact;

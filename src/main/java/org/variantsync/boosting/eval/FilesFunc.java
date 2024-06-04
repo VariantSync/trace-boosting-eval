@@ -7,11 +7,11 @@ import java.util.Scanner;
 public class FilesFunc {
 
     /**
-     * the function is used to change the debug folder path in properties file after
-     * each experiment
-     * because we cant delete the folder due to open files in Vevo
+     * Changes the debug folder path in the properties file after each experiment.
      *
-     * @param count if -1 reset to origin
+     * @param filePath The file path of the properties file to be modified
+     * @param count    The count of experiments. If set to -1, the folder path will
+     *                 be reset to its original value
      */
     public static void changeProperties(String filePath, int count) {
         // Load the properties from the file
@@ -42,9 +42,17 @@ public class FilesFunc {
     }
 
     /**
-     * delete all product in input file for next test
+     * Deletes all product files in the specified input folder to prepare for the
+     * next test.
+     * 
+     * @param inputFolder The path to the folder containing the product files to be
+     *                    deleted.
+     * 
+     * @throws IllegalArgumentException if the inputFolder is null or empty.
+     * @throws IOException              if an I/O error occurs while deleting the
+     *                                  files.
      */
-    public static void deleteInputfiles(String inputFolder) {
+    public static void deleteInputfiles(String inputFolder) throws IOException {
         File folder = new File(inputFolder);
         for (File file : folder.listFiles()) {
             file.delete();
@@ -52,7 +60,14 @@ public class FilesFunc {
     }
 
     /**
-     * delete a folder with Recursively delete all subdirectories and files
+     * Recursively deletes a folder and all its subdirectories and files.
+     * 
+     * @param folder the folder to be deleted
+     * @return true if the folder and all its contents were successfully deleted,
+     *         false otherwise
+     * @throws SecurityException    if a security manager exists and denies delete
+     *                              access to the file
+     * @throws NullPointerException if the folder is null
      */
     public static boolean deleteFolder(File folder) {
         if (folder.isDirectory()) {
@@ -70,7 +85,12 @@ public class FilesFunc {
     }
 
     /**
-     * save json data to json file
+     * Writes the given JSON data to a specified file.
+     * 
+     * @param jsonstring The JSON data to be written to the file
+     * @param filepath   The path to the file where the JSON data will be saved
+     * @param splName    The name of the file to be saved
+     * @throws IOException If an I/O error occurs while writing the file
      */
     public static void writeFiles(String jsonstring, String filepath, String splName) throws IOException {
         String filename = filepath + "/experiment_result_" + splName + ".json";
@@ -91,7 +111,17 @@ public class FilesFunc {
     }
 
     /**
-     * save result to file old version
+     * Saves the results to a file in the specified filepath.
+     * 
+     * @param scores          a 2D array of double values representing the scores
+     *                        for each scenario
+     * @param scenarioSize    the size of each scenario
+     * @param percentMappings an array of integers representing the percentage
+     *                        mappings
+     * @param scenario        the name of the scenario
+     * @param runs            the number of runs
+     * @param filepath        the filepath where the results will be saved
+     * @throws IOException if an I/O error occurs while writing to the file
      */
     public static void writeFiles(double[][] scores, int scenarioSize, int[] percentMappings, String scenario, int runs,
             String filepath) throws IOException {
@@ -112,8 +142,6 @@ public class FilesFunc {
 
             FileWriter fileStream = new FileWriter(filename);
             for (int j = 0; j < runs; j++) {
-                // total percentage of correct mappings = " + results[0] + ", precision = " +
-                // scores[0] + ", recall = " + scores[1] + " and f1-score = " + scores[2] + "."
                 fileStream.write(
                         scores[j + i * runs][0] * 100
                                 + "%, precision: " + scores[j + i * runs][1]
@@ -128,7 +156,17 @@ public class FilesFunc {
     }
 
     /**
-     * clear all debug folder in the start of the experiment
+     * Clears all debug folders at the start of the experiment.
+     * 
+     * This function takes a path as input and recursively deletes all debug folders
+     * found within that path.
+     * Debug folders are typically used for storing temporary files or logs during
+     * the debugging process.
+     * 
+     * @param path The path to the directory where debug folders are located.
+     * @throws IllegalArgumentException if the path is null or empty.
+     * @throws SecurityException        if a security manager exists and denies
+     *                                  delete access to the files.
      */
     public static void clearDebugFolders(String path) {
         File directory = new File(path);

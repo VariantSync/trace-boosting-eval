@@ -12,8 +12,24 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * The Main class for running the evaluation.
+ */
 public class Main {
 
+    /**
+     * This method is the main entry point for the program. It reads a configuration
+     * file, prepares repositories, and runs experiments on each repository in
+     * parallel using a thread pool.
+     * 
+     * @param args The command line arguments passed to the program
+     * @throws IOException          If an I/O error occurs while reading the
+     *                              configuration file or loading ground truth data
+     * @throws InterruptedException If a thread is interrupted while waiting for a
+     *                              task to complete
+     * @throws ExecutionException   If an error occurs while executing a task in the
+     *                              thread pool
+     */
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         Path configPath = Path.of(System.getProperty("user.dir") + "/data/evaluation.properties");
         // Load the main config to determine the subjects
@@ -50,9 +66,18 @@ public class Main {
         System.exit(0);
     }
 
+    /**
+     * Prepares the subject repositories by cloning them into the specified
+     * directory.
+     * 
+     * @param config the configuration object containing the repository directory
+     * @return a list of Paths representing the cloned repositories
+     * @throws IOException if an I/O error occurs during the cloning process
+     */
     public static List<Path> prepareRepos(Config config) throws IOException {
         Path repoDir = config.repoDir();
         var utilities = new VEVOSUtilities();
         return utilities.cloneRepositories(repoDir);
     }
+
 }
