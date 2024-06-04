@@ -2,10 +2,15 @@
 [![License](https://img.shields.io/badge/License-GNU%20LGPLv3-blue)](LICENSE.LGPL3)
 
 # TODOS 
-- batch scripts
-- Implement setup validation!
-- replication argument 
-- rename execution script
+- batch scripts for Windows
+- Revise README 
+- Add hint in README about memory requirements and runtime for the replication 
+- Add hint about Docker permissions
+- Integrate data analysis with Python into the Docker setup
+- Test setup 
+  - Linux 
+  - Windows 
+  - MacOS
 
 # Evaluation Artifact for "Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing"
 
