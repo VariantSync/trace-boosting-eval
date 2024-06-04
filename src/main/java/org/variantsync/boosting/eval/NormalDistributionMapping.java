@@ -1,8 +1,8 @@
 package org.variantsync.boosting.eval;
 
-import de.hub.mse.variantsync.boosting.ecco.ASTNode;
-import de.hub.mse.variantsync.boosting.position.ProductPosition;
-import de.hub.mse.variantsync.boosting.product.Product;
+import org.variantsync.boosting.datastructure.ASTNode;
+import org.variantsync.boosting.position.ProductPosition;
+import org.variantsync.boosting.product.Product;
 import org.variantsync.vevos.simulation.variability.pc.Artefact;
 
 import java.nio.file.Path;

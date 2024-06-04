@@ -1,8 +1,8 @@
 package org.variantsync.boosting.eval;
 
-import de.hub.mse.variantsync.boosting.TraceBoosting;
-import de.hub.mse.variantsync.boosting.ecco.ASTNode;
-import de.hub.mse.variantsync.boosting.product.Product;
+import org.variantsync.boosting.TraceBoosting;
+import org.variantsync.boosting.datastructure.*;
+import org.variantsync.boosting.product.Product;
 import org.logicng.formulas.Formula;
 import org.logicng.io.parsers.ParserException;
 import org.logicng.io.parsers.PropositionalParser;

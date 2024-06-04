@@ -1,14 +1,14 @@
 package org.variantsync.boosting.eval;
 
 import com.google.gson.JsonObject;
-import de.hub.mse.variantsync.boosting.TraceBoosting;
-import de.hub.mse.variantsync.boosting.ecco.Feature;
-import de.hub.mse.variantsync.boosting.ecco.MainTree;
-import de.hub.mse.variantsync.boosting.parsing.ESupportedLanguages;
-import de.hub.mse.variantsync.boosting.product.Product;
-import de.hub.mse.variantsync.boosting.product.ProductPassport;
 import org.apache.commons.io.FileUtils;
 import org.tinylog.Logger;
+import org.variantsync.boosting.TraceBoosting;
+import org.variantsync.boosting.datastructure.Feature;
+import org.variantsync.boosting.datastructure.MainTree;
+import org.variantsync.boosting.parsing.ESupportedLanguages;
+import org.variantsync.boosting.product.Product;
+import org.variantsync.boosting.product.ProductPassport;
 import org.variantsync.vevos.simulation.feature.sampling.Sample;
 import org.variantsync.vevos.simulation.variability.SPLCommit;
 import org.variantsync.vevos.simulation.variability.pc.SourceCodeFile;

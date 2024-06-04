@@ -1,12 +1,12 @@
 package org.variantsync.boosting.eval;
 
-import de.hub.mse.variantsync.boosting.TraceBoosting;
-import de.hub.mse.variantsync.boosting.ecco.ASTNode;
-import de.hub.mse.variantsync.boosting.position.ProductPosition;
-import de.hub.mse.variantsync.boosting.product.Product;
 import org.logicng.formulas.Formula;
 import org.logicng.io.parsers.PropositionalParser;
 import org.prop4j.Node;
+import org.variantsync.boosting.TraceBoosting;
+import org.variantsync.boosting.datastructure.ASTNode;
+import org.variantsync.boosting.position.ProductPosition;
+import org.variantsync.boosting.product.Product;
 import org.variantsync.vevos.simulation.io.Resources;
 import org.variantsync.vevos.simulation.util.io.CaseSensitivePath;
 import org.variantsync.vevos.simulation.variability.pc.Artefact;

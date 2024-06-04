@@ -1,14 +1,14 @@
 package org.variantsync.boosting.eval;
 
-import de.hub.mse.variantsync.boosting.TraceBoosting;
-import de.hub.mse.variantsync.boosting.ecco.ASTNode;
-import de.hub.mse.variantsync.boosting.ecco.Feature;
-import de.hub.mse.variantsync.boosting.ecco.MainTree;
-import de.hub.mse.variantsync.boosting.position.ProductPosition;
-import de.hub.mse.variantsync.boosting.product.Product;
 import org.logicng.formulas.Formula;
 import org.prop4j.Node;
 import org.tinylog.Logger;
+import org.variantsync.boosting.TraceBoosting;
+import org.variantsync.boosting.datastructure.ASTNode;
+import org.variantsync.boosting.datastructure.Feature;
+import org.variantsync.boosting.datastructure.MainTree;
+import org.variantsync.boosting.position.ProductPosition;
+import org.variantsync.boosting.product.Product;
 import org.variantsync.functjonal.Result;
 import org.variantsync.vevos.simulation.util.io.CaseSensitivePath;
 import org.variantsync.vevos.simulation.variability.pc.Artefact;
