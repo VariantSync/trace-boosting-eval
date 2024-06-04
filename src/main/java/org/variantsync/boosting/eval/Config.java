@@ -146,8 +146,8 @@ public class Config {
     }
 
     /**
-     * Returns the directory path to the subject respoistories.
-     *
+     * Returns the directory path to the subject repositories.
+     * 
      * @return The directory path to the subject repositories as a Path object.
      */
     public Path repoDir() {
