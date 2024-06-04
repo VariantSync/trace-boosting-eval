@@ -143,7 +143,7 @@ public class Evaluator {
                 counter++;
 
                 if ((counter % 20000) == 0)
-                    System.out.println("counter " + counter);
+                    System.out.println("still in progress... ");
             }
             evaluatedNodes++;
         }
