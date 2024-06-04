@@ -21,9 +21,11 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This abstract class serves as a base class for running our experiments.
+ */
 public abstract class ExperimentRunner {
     protected Config config;
-    private static final String REPO_CLONE_DIR = "repos";
     private static final String VARIANT_GENERATION_DIR = "variants";
     private static final String CONFIG_GENERATION_DIR = "configs";
     private static final String ARGOUML_REPO_NAME = "argouml-spl";
@@ -32,12 +34,12 @@ public abstract class ExperimentRunner {
 
     protected int ex_repeat;
     protected int[] percentages;
-    // build variant sampling scenarios ref
     int[] sampleSizes;
     int maxFeatures;
 
     private static final ArtefactFilter<SourceCodeFile> ARGOUML_FILE_FILTER = sourceCodeFile -> sourceCodeFile.getFile()
             .path().startsWith("src");
+
     private static final ArtefactFilter<SourceCodeFile> OTHER_FILE_FILTER = sourceCodeFile -> {
         String[] validExtensions = new String[] { ".c", ".h", ".cpp", ".hpp" };
         String path = sourceCodeFile.getFile().path().getFileName().toString();
@@ -49,6 +51,12 @@ public abstract class ExperimentRunner {
         return false;
     };
 
+    /**
+     * Constructor for ExperimentRunner class.
+     * Initializes ExperimentRunner object with the provided Config object.
+     *
+     * @param config Config object containing experiment parameters
+     */
     protected ExperimentRunner(Config config) {
         this.config = config;
         ex_repeat = config.experimentRepeats();
@@ -57,10 +65,30 @@ public abstract class ExperimentRunner {
         maxFeatures = config.maxFeatures();
     }
 
+    /**
+     * Loads a subject-specific configuration based on the given SPL name and path
+     * to the configuration file.
+     * 
+     * @param splName      the SPL name for which the configuration is being loaded
+     * @param pathToConfig the path to the configuration file
+     * @return a Config object representing the loaded configuration
+     */
     protected static Config loadSubjectSpecificConfig(String splName, Path pathToConfig) {
         return new Config(pathToConfig, splName);
     }
 
+    /**
+     * Prepares a new set of variants for a given software product line (SPL)
+     * repository, based on a list of SPL commits and a specified number of
+     * variants.
+     *
+     * @param splRepoPath  the path to the SPL repository
+     * @param splCommitGTs the list of SPL commits with ground truths
+     * @param nVariants    the number of variants to generate
+     * @return a VariantGenerationResult object containing the generated variants,
+     *         ground truths, and configuration files
+     * @throws IOException if an I/O error occurs
+     */
     public VariantGenerationResult prepareVariants(Path splRepoPath, List<SPLCommit> splCommitGTs, int nVariants)
             throws IOException {
         Path splName = splRepoPath.getFileName();
@@ -102,6 +130,16 @@ public abstract class ExperimentRunner {
         throw new IllegalStateException("UNREACHABLE");
     }
 
+    /**
+     * Conducts an experiment using the given variant generation result, percentage,
+     * and standard deviation.
+     * 
+     * @param variantGenerationResult The result of the variant generation process
+     * @param percentage              The percentage of the experiment to be
+     *                                conducted
+     * @param standardDeviation       The standard deviation of the experiment
+     * @return An array of double values representing the results of the experiment
+     */
     public double[] conductExperiment(VariantGenerationResult variantGenerationResult, int percentage,
             double standardDeviation) {
         TraceBoosting traceBoosting = initBoosting(
@@ -133,8 +171,19 @@ public abstract class ExperimentRunner {
         return new double[] { results[0] + results[1], funcScores[0], funcScores[1], funcScores[2], elapsedTimeMillis };
     }
 
+    /**
+     * Initializes the TraceBoosting with the given parameters.
+     * 
+     * @param variantsDirectory the directory containing the variant files
+     * @param gtMap             a map of variant IDs to their corresponding ground
+     *                          truth objects
+     * @param configFileMap     a map of configuration file names to their
+     *                          corresponding paths
+     * @return a TraceBoosting object initialized with the provided parameters
+     */
     public TraceBoosting initBoosting(Path variantsDirectory, Map<String, GroundTruth> gtMap,
             Map<String, Path> configFileMap) {
+
         List<ProductPassport> productPassports = new ArrayList<>();
         for (Map.Entry<String, GroundTruth> gtEntry : gtMap.entrySet()) {
             String variantName = gtEntry.getKey();
@@ -149,7 +198,14 @@ public abstract class ExperimentRunner {
         return traceBoosting;
     }
 
+    /**
+     * Creates a JsonObject with properties for the current experiment.
+     * 
+     * @return JsonObject - a JsonObject containing the properties for the current
+     *         experiment
+     */
     protected JsonObject createJSONProperties() {
+
         JsonObject experimentprop = new JsonObject();
         experimentprop.addProperty("Percentage scenarios", Arrays.toString(percentages));
         experimentprop.addProperty("Variants", Arrays.toString(sampleSizes));
@@ -160,6 +216,14 @@ public abstract class ExperimentRunner {
         return experimentjson;
     }
 
+    /**
+     * Creates a JSON object representing a single run with the given scores.
+     *
+     * @param score an array of double values representing the accuracy, precision,
+     *              recall, f1-score, and time of the run
+     * @return a JsonObject containing the scores for accuracy, precision, recall,
+     *         f1-score, and time
+     */
     protected JsonObject createJSONSingleRun(double[] score) {
         JsonObject runJson = new JsonObject();
         runJson.addProperty("accuracy", (score[0]));

@@ -146,9 +146,9 @@ public class Config {
     }
 
     /**
-     * Returns the directory path of the experiment repository.
+     * Returns the directory path to the subject respoistories.
      *
-     * @return The directory path of the experiment repository as a Path object.
+     * @return The directory path to the subject repositories as a Path object.
      */
     public Path repoDir() {
         return Path.of(this.properties.getProperty(EXPERIMENT_REPO_DIR));
