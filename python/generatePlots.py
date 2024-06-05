@@ -100,6 +100,10 @@ def main():
             title = ''
             plotBoxs(sampleData['precision_df'], title=title, ylabel='Precision',
                      filename="precision/" + datasetName + '-' + sample_size)
+            plotBoxs(sampleData['accuracy_df'], title=title, ylabel='Accuracy',
+                     filename="accuracy/" + datasetName + '-' + sample_size)
+            plotBoxs(sampleData['f1_score_df'], title=title, ylabel='F1-score',
+                     filename="f1-score/" + datasetName + '-' + sample_size)
             plotBoxs(sampleData['recall_df'], title=title, ylabel='Recall',
                      filename="recall/" + datasetName + '-' + sample_size)
 
