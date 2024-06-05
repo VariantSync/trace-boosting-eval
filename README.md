@@ -120,3 +120,42 @@ docker system prune -a
 ```
 Please refer to the official documentation on how to remove specific [images](https://docs.docker.com/engine/reference/commandline/image_rm/) and [containers](https://docs.docker.com/engine/reference/commandline/container_rm/) from your system.
 
+## Generating the plots 
+0. **Navigate to the python sources**
+```bash
+cd python 
+```
+
+1. **Install virtualenv** (if you haven't already):
+   ```bash
+   pip install virtualenv
+   ```
+2. **Create a virtual environment**:
+   Navigate to your project directory and run:
+   ```bash
+   virtualenv venv
+   ```
+   This will create a virtual environment named `venv` in your project directory.
+3. **Activate the virtual environment**:
+   - On Windows, run:
+     ```cmd
+     .\venv\Scripts\activate
+     ```
+   - On macOS and Linux, run:
+     ```bash
+     source venv/bin/activate
+     ```
+4. **Install the dependencies**:
+   With the virtual environment activated, install the dependencies from `requirements.txt` by running:
+   ```bash
+   pip install -r requirements.txt
+   ```
+5. **Run your script**:
+   With the dependencies installed, you can now run your Python script. For example, if your script is named `script.py`, run:
+   ```bash
+   python generatePlots.py
+   ```
+6. **Deactivate the virtual environment** (when you're done):
+   To exit the virtual environment, simply run:
+   ```bash
+   deactivate
