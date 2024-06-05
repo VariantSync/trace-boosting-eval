@@ -14,13 +14,14 @@
 
 # Evaluation Artifact for "Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing"
 
-This project comprises the source code running the empirical evaluation of our [boosted comparison-based feature tracing](https://github.com/VariantSync/trace-boosting/tree/main) algorithm, 
-which is implemented as a library in a separate repository. 
+This repository comprises the artifact for our paper _Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing_ 
+which is accepted at the 28th ACM International Systems and Software Product Line Conference (SPLC 2024).
+The project comprises the source code running the empirical evaluation of our **boosted comparison-based feature tracing** algorithm, 
+which is implemented as a [library in a separate repository](https://github.com/VariantSync/trace-boosting). 
 
 Our algorithm is designed to enhance the accuracy of retroactive feature tracing with proactively collected feature traces. 
 It is particularly useful for projects with multiple product variants, where it can improve the accuracy and efficiency of the tracing process. 
 
-This repository comprises artifacts for our paper _Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing_ which has been accepted at the International Systems and Product Line Conference (SPLC 2024).
 
 ## Obtaining this Artifact
 Clone the repository to a location of your choice using [git](https://git-scm.com/docs/git-clone):
