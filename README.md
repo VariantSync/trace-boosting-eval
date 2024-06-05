@@ -121,6 +121,17 @@ docker system prune -a
 Please refer to the official documentation on how to remove specific [images](https://docs.docker.com/engine/reference/commandline/image_rm/) and [containers](https://docs.docker.com/engine/reference/commandline/container_rm/) from your system.
 
 ## Generating the plots 
+### Make sure there are results to analyse 
+If you have not executed the replication or validation, there are no results to analyze and plot, yet. 
+However, we also provide our reported results for which the plots can be generated. 
+To generate the plots shown in our paper, you have to copy the result files (.json) under [reported-results](reported-results) to the [results](results) directory. 
+
+```bash 
+cp reported-results/* results/
+```
+
+### Execute the python script
+
 0. **Navigate to the python sources**
 ```bash
 cd python 
@@ -150,7 +161,7 @@ cd python
    ```bash
    pip install -r requirements.txt
    ```
-5. **Run your script**:
+5. **Run the script**:
    With the dependencies installed, you can now run your Python script. For example, if your script is named `script.py`, run:
    ```bash
    python generatePlots.py
