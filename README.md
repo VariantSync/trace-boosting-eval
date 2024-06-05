@@ -98,6 +98,20 @@ execute.bat replication
 ./execute.sh replication
 ```
 
+### Plot the results using docker
+Finally, you can plot the results using Docker. 
+> If you have not executed the replication or validation, there are no results to analyze and plot, yet. 
+> However, we also provide our reported results for which the plots can be generated. 
+> To generate the plots shown in our paper, you have to copy the result files (.json) under [reported-results](reported-results) to the [results](results) directory. 
+```shell
+# Windows Command Prompt:
+execute.bat plotting
+# Windows PowerShell:
+.\execute.bat plotting
+# Linux | MacOS
+./execute.sh plotting
+```
+
 ### Docker Experiment Configuration
 By default, the properties used by Docker are configured to run the experiments as presented in our paper. We offer the 
 possibility to change the default configuration. 
