@@ -26,6 +26,10 @@ RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get install bash git python3 unzip curl -y
 
+# Install Python and pip
+
+RUN apt-get install -y python3 python3-pip python3-virtualenv
+
 ARG GROUP_ID
 ARG USER_ID
 
@@ -39,12 +43,15 @@ WORKDIR /home/user
 COPY docker/* ./
 COPY python ./python
 RUN mkdir data
-RUN mkdir data/result
 COPY data ./data 
 COPY setup.sh ./setup.sh
 
 # Copy all relevant files from the previous stage
 COPY --from=0 /home/user/target* ./
+
+# Set up the python environment for executing the plot creation
+WORKDIR /home/user/python
+WORKDIR /home/user
 
 # Adjust permissions
 RUN chown user:user /home/user -R

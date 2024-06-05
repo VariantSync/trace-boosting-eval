@@ -88,10 +88,10 @@ public class RQRunner extends ExperimentRunner {
         String jsonString = gson.toJson(experimentjson);
 
         // Save to file
-        FilesFunc.writeFiles(jsonString, System.getProperty("user.dir") + "/data/result/rq1/",
+        FilesFunc.writeFiles(jsonString, System.getProperty("user.dir") + "/results",
                 splRepoPath.getFileName().toString());
 
-        System.out.println("End RQ1 Experiment .....");
+        System.out.println("End Experiment .....");
     }
 
 }
