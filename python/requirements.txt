@@ -1,5 +1,2 @@
-numpy
 pandas
-tabulate
-scipy
 matplotlib
