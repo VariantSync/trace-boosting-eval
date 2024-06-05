@@ -2,15 +2,9 @@
 [![License](https://img.shields.io/badge/License-GNU%20LGPLv3-blue)](LICENSE.LGPL3)
 
 # TODOS 
-- batch scripts for Windows
 - Revise README 
 - Add hint in README about memory requirements and runtime for the replication 
-- Add hint about Docker permissions
-- Integrate data analysis with Python into the Docker setup
 - Test setup 
-  - Linux 
-    - replication 
-    - validation
   - Windows 
     - replication 
     - validation
@@ -46,6 +40,7 @@ Open a terminal in the cloned directory and execute the setup script to download
 
 ### Setup Instructions
 * Install [Docker](https://docs.docker.com/get-docker/) on your system and start the [Docker Daemon](https://docs.docker.com/config/daemon/).
+> Depending on your Docker installation, you might require elevated permission (i.e., sudo) to call the Docker daemon under Linux. 
 * Open a terminal and navigate to the project's root directory
 * Build the docker image by calling the build script corresponding to your OS
   ```sh
