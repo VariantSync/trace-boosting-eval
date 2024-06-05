@@ -20,14 +20,16 @@
 
 # Evaluation Artifact for "Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing"
 
-This project comprises the empirical evaluation for our [trace boosting]() algorithm implemented in a separate repository as a library. 
- Our algorithm was designed to enhance retroactive feature tracing with proactively collected feature traces. 
+This project comprises the source code running the empirical evaluation of our [boosted comparison-based feature tracing](https://github.com/VariantSync/trace-boosting/tree/main) algorithm, 
+which is implemented as a library in a separate repository. 
+
+Our algorithm is designed to enhance the accuracy of retroactive feature tracing with proactively collected feature traces. 
 It is particularly useful for projects with multiple product variants, where it can improve the accuracy and efficiency of the tracing process. 
 
 This repository comprises artifacts for our paper _Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing_ which has been accepted at the International Systems and Product Line Conference (SPLC 2024).
 
-## Obtaining the Artifacts
-Clone the repository to a location of your choice using [git](https://git-scm.com/):
+## Obtaining this Artifact
+Clone the repository to a location of your choice using [git](https://git-scm.com/docs/git-clone):
   ```sh
   git clone https://github.com/VariantSync/trace-boosting-eval.git  
 ```
@@ -40,7 +42,7 @@ Open a terminal in the cloned directory and execute the setup script to download
 ./setup.sh
 ```
 
-## Requirements and Installation
+## Getting Started: Requirements and Installation
 
 ### Setup Instructions
 * Install [Docker](https://docs.docker.com/get-docker/) on your system and start the [Docker Daemon](https://docs.docker.com/config/daemon/).
@@ -52,8 +54,8 @@ Open a terminal in the cloned directory and execute the setup script to download
   # Linux | MacOS:
   build.sh
   ```
-* You can validate the installation by calling the validation corresponding to your OS. The validation should take about
-  `30 minutes` depending on your system.
+* You can validate the installation by calling the validation corresponding to your OS. The validation runs about
+  __`30 minutes`__ depending on your system.
 
   ```shell
   # Windows:
@@ -66,7 +68,7 @@ Open a terminal in the cloned directory and execute the setup script to download
 
 ## Running the Experiments Using Docker
 
-* All of the commands in this section are assumed to be executed in a terminal with working directory at RaQuN's project
+* All commands in this section are supposed to be executed in a terminal with working directory at the evaluation-repository's project
 root.
 * You can stop the execution of any experiment by running the following command in another terminal:
   ```shell
@@ -80,8 +82,13 @@ root.
 Stopping the execution may take a moment.
 
 ### Running all Experiments
-You can repeat the experiments exactly as presented in our paper. The following command will execute 30 runs of the experiments
+You can repeat the experiments exactly as presented in our paper. 
+The following command executes 30 runs of the experiments
 for RQ1 and RQ2.
+
+**Please note:** Due to comparing potentially large files, mapped to tree-structures, and feature expressions, 
+the entire experiment requires high amounts of RAM (> 24GB) and several hours. 
+
 ```shell
 # Windows Command Prompt:
 execute.bat replication
