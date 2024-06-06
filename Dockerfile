@@ -36,7 +36,7 @@ ARG USER_ID
 RUN if ! getent group $GROUP_ID; then \
       groupadd -g $GROUP_ID user; \
     fi
-RUN useradd --no-create-home --uid $USER_ID --gid user --home-dir /home/user --shell /bin/bash user
+RUN useradd --no-create-home --uid $USER_ID --gid $GROUP_ID --home-dir /home/user --shell /bin/bash user
 RUN mkdir -p /home/user
 RUN chown $USER_ID:$GROUP_ID /home/user
 WORKDIR /home/user
