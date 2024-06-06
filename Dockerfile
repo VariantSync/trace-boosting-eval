@@ -33,7 +33,9 @@ RUN apt-get install -y python3 python3-pip python3-virtualenv
 ARG GROUP_ID
 ARG USER_ID
 
-RUN groupadd -g $GROUP_ID user
+RUN if ! getent group $GROUP_ID; then \
+      groupadd -g $GROUP_ID user; \
+    fi
 RUN useradd --no-create-home --uid $USER_ID --gid user --home-dir /home/user --shell /bin/bash user
 RUN mkdir -p /home/user
 RUN chown $USER_ID:$GROUP_ID /home/user
