@@ -44,11 +44,18 @@ Open a terminal in the cloned directory and execute the setup script to download
 > Depending on your Docker installation, you might require elevated permission (i.e., sudo) to call the Docker daemon under Linux. 
 * Open a terminal and navigate to the project's root directory
 * Build the docker image by calling the build script corresponding to your OS
+
+> Under MacOS the image's and host's platform might not match. 
+Therefore, we added a separate `build-on-mac` script for MacOS users in which the platform can be specified. 
+If there is a mismatch, Docker will print a warning at the start of the build process that states the used platforms. Please update the required platform in the build script in accordance with your host platform. 
   ```sh
   # Windows:
   build.bat
-  # Linux | MacOS:
-  build.sh
+  # Linux:
+  ./build.sh
+  # MacOS - you might have to change the platform in the script according to your hardware; see the troubleshooting section for more information
+  ./build-on-mac.sh
+
   ```
 * You can validate the installation by calling the validation corresponding to your OS. The validation runs about
   __`30 minutes`__ depending on your system.
@@ -180,3 +187,14 @@ cd python
    To exit the virtual environment, simply run:
    ```bash
    deactivate
+
+# Troubleshooting
+## WARNING: The requested image's platform does not match 
+You might encounter the following warning (or a similar one) during the build step of the docker image: 
+```shell 
+➜  trace-boosting-eval git:(main) ✗ ./execute.sh validation
+Starting validation
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+Running validation
+``` 
+In this case, please update the host platform in the `build-on-mac.sh` script and try to rerun the build step. 
