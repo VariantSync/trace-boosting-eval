@@ -56,7 +56,7 @@ WORKDIR /home/user/python
 WORKDIR /home/user
 
 # Adjust permissions
-RUN chown user:user /home/user -R
+RUN chown $USER_ID:$GROUP_ID /home/user -R
 RUN chmod +x run-experiments.sh
 RUN chmod +x entrypoint.sh
 RUN chmod +x setup.sh
