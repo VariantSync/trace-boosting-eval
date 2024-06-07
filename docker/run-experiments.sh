@@ -1,12 +1,12 @@
 #! /bin/bash
 replication() {
 	echo "Running replication"
-	java -Xmx128g -Dtinylog.configuration=/home/user/tinylog.properties -jar traceboosting-eval-jar-with-dependencies.jar replication.properties
+	java -Dtinylog.configuration=/home/user/tinylog.properties -jar traceboosting-eval-jar-with-dependencies.jar replication.properties
 }
 
 validation() {
 	echo "Running validation"
-	java -Xmx128g -Dtinylog.configuration=/home/user/tinylog.properties -jar traceboosting-eval-jar-with-dependencies.jar validation.properties
+	java -Dtinylog.configuration=/home/user/tinylog.properties -jar traceboosting-eval-jar-with-dependencies.jar validation.properties
 }
 
 plotting() {
