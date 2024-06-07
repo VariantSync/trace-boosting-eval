@@ -42,9 +42,10 @@ public class Main {
         String propertiesFilename = args[0];
         Path configPath = Path.of(System.getProperty("user.dir") + "/data/" + propertiesFilename);
         // Load the main config to determine the subjects
+        Config config = new Config(configPath);
         List<Path> repositoryPaths = prepareRepos(new Config(configPath));
 
-        try (ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())) {
+        try (ExecutorService threadPool = Executors.newFixedThreadPool(config.numThreads())) {
             List<Future<String>> futures = new ArrayList<>();
             for (Path splRepoPath : repositoryPaths) {
                 Config rqConfig = ExperimentRunner.loadSubjectSpecificConfig(splRepoPath.getFileName().toString(),

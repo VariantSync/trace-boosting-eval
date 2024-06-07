@@ -26,6 +26,7 @@ public class Config {
     private static final String EXPERIMENT_REPO_DIR = "experiment.repo-dir";
     private static final String EXPERIMENT_MAX_FEATURES = "experiment.max-features";
     private static final String EXPERIMENT_SUBJECTS = "experiment.subjects";
+    private static final String EXPERIMENT_NUM_THREADS = "experiment.num-threads";
 
     private int strip = 0;
     private final Properties properties;
@@ -179,6 +180,20 @@ public class Config {
      */
     public List<String> getSubjects() {
         return parseNameList(this.properties.getProperty(EXPERIMENT_SUBJECTS));
+    }
+
+    /**
+     * Returns the number of threads to be used for the experiment.
+     * 
+     * @return the number of threads to be used for the experiment
+     */
+    public int numThreads() {
+        String propertyValue = this.properties.getProperty(EXPERIMENT_NUM_THREADS);
+        if (propertyValue != null && !propertyValue.trim().equals("")) {
+            return Integer.parseInt(propertyValue);
+        } else {
+            return Runtime.getRuntime().availableProcessors();
+        }
     }
 
     /**
