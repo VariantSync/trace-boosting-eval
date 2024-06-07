@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 openjdk:23-slim
+FROM --platform=linux/amd64 openjdk:21-slim
 
 # Set the environment variable to noninteractive to avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
@@ -17,7 +17,7 @@ COPY pom.xml ./pom.xml
 RUN mvn clean package || exit
 
 
-FROM --platform=linux/amd64 openjdk:23-slim
+FROM --platform=linux/amd64 openjdk:21-slim
 
 # Set the environment variable to noninteractive to avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
