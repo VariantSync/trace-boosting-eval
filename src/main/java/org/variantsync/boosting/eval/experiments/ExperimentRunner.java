@@ -196,6 +196,7 @@ public abstract class ExperimentRunner {
         System.out.println("build TraceBoosting object");
         TraceBoosting traceBoosting = new TraceBoosting(productPassports, config.experimentWorkDirBoosting(),
                 ESupportedLanguages.LINES);
+        traceBoosting.setNumThreads(config.numThreads());
         System.out.println("initial done");
 
         return traceBoosting;
