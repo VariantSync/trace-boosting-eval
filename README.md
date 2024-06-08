@@ -40,7 +40,7 @@ Open a terminal in the cloned directory and execute the setup script to download
 ## Getting Started: Requirements and Installation
 
 ### Setup Instructions
-* Install [Docker](https://docs.docker.com/get-docker/) on your system and start the [Docker Daemon](https://docs.docker.com/config/daemon/).
+* Install [Docker](https://docs.docker.com/get-docker/) on your system and start the [Docker Daemon](https://docs.docker.com/config/daemon/start/).
 > Depending on your Docker installation, you might require elevated permission (i.e., sudo) to call the Docker daemon under Linux. 
 * Open a terminal and navigate to the project's root directory
 * Build the docker image by calling the build script corresponding to your OS
