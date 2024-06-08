@@ -1,12 +1,11 @@
 #! /bin/bash
 replication() {
 	echo "Running replication"
-	java -Dtinylog.configuration=/home/user/tinylog.properties -jar traceboosting-eval-jar-with-dependencies.jar replication.properties
+	java -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -Dtinylog.configuration=/home/user/tinylog.properties -jar traceboosting-eval-jar-with-dependencies.jar replication.properties
 }
 
-validation() {
-	echo "Running validation"
-	java -Dtinylog.configuration=/home/user/tinylog.properties -jar traceboosting-eval-jar-with-dependencies.jar validation.properties
+    echo "Running validation"
+    java -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -Dtinylog.configuration=/home/user/tinylog.properties -jar traceboosting-eval-jar-with-dependencies.jar validation.properties
 }
 
 plotting() {
