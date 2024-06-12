@@ -8,8 +8,9 @@ which is accepted at the 28th ACM International Systems and Software Product Lin
 The project comprises the source code running the empirical evaluation of our **boosted comparison-based feature tracing** algorithm, 
 which is implemented as a library in a separate open-source [GitHub repository](https://github.com/VariantSync/trace-boosting). 
 
-Our algorithm is designed to enhance the accuracy of retroactive feature tracing with proactively collected feature traces. 
-It is particularly useful for projects with multiple product variants, where it can improve the accuracy and efficiency of the tracing process. 
+Our algorithm is designed to enhance the accuracy of retroactive heuristic feature tracing with proactively collected feature traces.
+Particularly, the algorithm can be used for projects with multiple product variants. 
+There, it can improve the accuracy and efficiency of the tracing process by exploiting reliable manual knowledge. 
 
 
 ## Obtaining this Artifact
@@ -21,14 +22,18 @@ Clone the repository to a location of your choice using [git](https://git-scm.co
 ### (Optional) Download the experiment data
 > This is done automatically by the Docker script and is only required if you plan on interacting directly with the data. 
 
-Open a terminal in the cloned directory and execute the setup script to download the required data files containing subject repositories and their ground truth from [Zenodo](https://doi.org/10.5281/zenodo.11472597). 
+Open a terminal in the cloned directory and execute the setup script. 
+The script downloads the required data files which consists of the subject repositories and their ground truth from [Zenodo](https://doi.org/10.5281/zenodo.11472597). 
 ```sh 
 ./setup.sh
 ```
 
-## Getting Started: Requirements and Installation
+## Getting Started: Requirements, Installation, and Validation using Docker
 
-### Setup Instructions
+The following paragraphs explain how to run the experiments from the paper by using Docker. 
+An explanation how to run the Java implementation from source follows thereafter.
+
+### Docker Setup Instructions
 * Install [Docker](https://docs.docker.com/get-docker/) on your system and start the [Docker Daemon](https://docs.docker.com/config/daemon/start/).
 > Depending on your Docker installation, you might require elevated permission (i.e., sudo) to call the Docker daemon under Linux. 
 * Open a terminal and navigate to the project's root directory
@@ -58,6 +63,10 @@ If there is a mismatch, Docker will print a warning at the start of the build pr
   The script will generate figures and tables similar to the ones presented in our paper. They are automatically saved to
   `./results`.
 
+  **Please note:** In the provided default configuration (data/validation.properties), the experiment is run only on one set of variants.
+* If those are well-aligned, the result of the accuracy-metrics may be one, meaning all feature traces are computed correctly.
+* For a higher amount of compared variants and for a higher amount of proactive traces, highly accurate traces can be expected.
+
 ## Running the Experiments Using Docker
 
 * All commands in this section are supposed to be executed in a terminal with working directory at the evaluation-repository's project
@@ -79,7 +88,9 @@ The following command executes 30 runs of the experiments
 for RQ1 and RQ2.
 
 **Please note:** Due to comparing potentially large files, mapped to tree-structures, and feature expressions, 
-the entire experiment requires high amounts of RAM (> 24GB) and several hours. 
+the entire experiment requires high amounts of RAM (> 24GB) and several hours up to days (depending on the hardware capabilities). 
+To achieve results faster, we recommend to reduce the executions, for instance by examining only one subject each. 
+Similar, the lower the number of compared variants, the faster the experiment finishes.
 
 ```shell
 # Windows Command Prompt:
@@ -89,6 +100,26 @@ execute.bat replication
 # Linux | MacOS
 ./execute.sh replication
 ```
+
+
+**Please note further**: The variants for which feature traces are computed are determined randomly.
+Thus, if you replicate our experiment with exactly the same setup, the exact results may slightly deviate.
+However, the general trend of boosting the accuracy should be visible for all computed metrics in a very similar matter.
+
+
+### Docker Experiment Configuration
+By default, the properties used by Docker are configured to run the experiments as presented in our paper. We offer the
+possibility to change the default configuration.
+* Open the properties file in [data](data) which you want to adjust
+    * [`replication.properties`](data/replication.properties) configures the experiment execution
+      of `execute.(bat|sh) replication`
+    * [`validation.properties`](data/validation.properties) configures the experiment execution of  
+      `execute.(bat|sh) validation`
+* Change the properties to your liking
+* Rebuild the docker image as described above
+* Delete old results in the `./results` folder
+* Start the experiment as described above
+
 
 ### Plot the results using docker
 Finally, you can plot the results using Docker. 
@@ -104,19 +135,6 @@ execute.bat plotting
 ./execute.sh plotting
 ```
 
-### Docker Experiment Configuration
-By default, the properties used by Docker are configured to run the experiments as presented in our paper. We offer the 
-possibility to change the default configuration. 
-* Open the properties file in [data](data) which you want to adjust
-  * [`replication.properties`](data/replication.properties) configures the experiment execution 
-  of `execute.(bat|sh) replication`
-  * [`validation.properties`](data/validation.properties) configures the experiment execution of  
- `execute.(bat|sh) validation`
-* Change the properties to your liking
-* Rebuild the docker image as described above
-* Delete old results in the `./results` folder
-* Start the experiment as described above
-
 ### Clean-Up
 The more experiments you run, the more space will be required by Docker. The easiest way to clean up all Docker images and
 containers afterwards is to run the following command in your terminal. Note that this will remove all other containers and images
@@ -127,14 +145,15 @@ docker system prune -a
 Please refer to the official documentation on how to remove specific [images](https://docs.docker.com/engine/reference/commandline/image_rm/) and [containers](https://docs.docker.com/engine/reference/commandline/container_rm/) from your system.
 
 ## Generating the plots 
-### Make sure there are results to analyse 
+### Make sure there are results to analyze 
 If you have not executed the replication or validation, there are no results to analyze and plot, yet. 
-However, we also provide our reported results for which the plots can be generated. 
-To generate the plots shown in our paper, you have to copy the result files (.json) under [reported-results](reported-results) to the [results](results) directory. 
+The artifact also contains the [results](reported-results) we obtained by conducting the experiment and which were reported in the paper.  
+To generate the plots presented in our paper, you need to copy the result files (.json) located in the [reported-results](reported-results) directory to the [results](results) directory. 
 
 ```bash 
 cp reported-results/* results/
 ```
+
 
 ### Execute the python script
 
