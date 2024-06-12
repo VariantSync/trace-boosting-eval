@@ -1,23 +1,12 @@
 [![Documentation](https://img.shields.io/badge/Documentation-Read-purple)](https://variantsync.github.io/trace-boosting-eval/)
 [![License](https://img.shields.io/badge/License-GNU%20LGPLv3-blue)](LICENSE.LGPL3)
 
-# TODOS 
-- Revise README 
-- Add hint in README about memory requirements and runtime for the replication 
-- Test setup 
-  - Windows 
-    - replication 
-    - validation
-  - MacOS
-    - replication 
-    - validation
-
 # Evaluation Artifact for "Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing"
 
-This repository comprises the artifact for our paper _Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing_ 
-which is accepted at the 28th ACM International Systems and Software Product Line Conference (SPLC 2024).
+This repository contains the artifact for our paper _Give an Inch and Take a Mile? Effects of Adding Reliable Knowledge to Heuristic Feature Tracing_ 
+which is accepted at the 28th ACM International Systems and Software Product Line Conference ([SPLC 2024](https://2024.splc.net/)).
 The project comprises the source code running the empirical evaluation of our **boosted comparison-based feature tracing** algorithm, 
-which is implemented as a [library in a separate repository](https://github.com/VariantSync/trace-boosting). 
+which is implemented as a library in a separate open-source [GitHub repository](https://github.com/VariantSync/trace-boosting). 
 
 Our algorithm is designed to enhance the accuracy of retroactive feature tracing with proactively collected feature traces. 
 It is particularly useful for projects with multiple product variants, where it can improve the accuracy and efficiency of the tracing process. 
@@ -198,3 +187,10 @@ WARNING: The requested image's platform (linux/amd64) does not match the detecte
 Running validation
 ``` 
 In this case, please update the host platform in the `build-on-mac.sh` script and try to rerun the build step. 
+
+
+# TODOS
+- Test setup
+    - Windows
+        - replication
+        - validation
