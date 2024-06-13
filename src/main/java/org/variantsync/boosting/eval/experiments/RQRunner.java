@@ -76,10 +76,14 @@ public class RQRunner extends ExperimentRunner {
                     // Save the result to JSON object
                     runjson.add(mappingPercentage + "%", createJSONSingleRun(score));
                 }
-
                 samplejson.add(runID + "run", runjson);
-            }
+                Gson gson = new Gson();
+                String intermediaryJsonString = gson.toJson(runjson);
 
+                // Save intermediary result to file
+                FilesFunc.writeFiles(intermediaryJsonString, System.getProperty("user.dir") + "/results/intermediary",
+                        splRepoPath.getFileName().toString() + runID);
+            }
             experimentjson.add(sampleSize + " samples", samplejson);
         }
 
