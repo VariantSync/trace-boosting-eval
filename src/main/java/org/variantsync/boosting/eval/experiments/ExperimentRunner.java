@@ -168,7 +168,7 @@ public abstract class ExperimentRunner {
         Evaluator evaluator = new Evaluator(traceBoosting);
         double[] results = evaluator.compare(mainTree, variantGenerationResult.variantGroundTruthMap(),
                 relevantFeatures, config.getStrip());
-        System.out.println("scoring.... ");
+        //System.out.println("scoring.... ");
         double[] funcScores = Evaluator.scoresFunc(results[0], results[2], results[3]);
 
         return new double[] { results[0] + results[1], funcScores[0], funcScores[1], funcScores[2], elapsedTimeMillis };
@@ -193,11 +193,10 @@ public abstract class ExperimentRunner {
             productPassports.add(new ProductPassport(variantName, variantsDirectory.resolve(variantName),
                     configFileMap.get(variantName)));
         }
-        System.out.println("build TraceBoosting object");
+
         TraceBoosting traceBoosting = new TraceBoosting(productPassports, config.experimentWorkDirBoosting(),
                 ESupportedLanguages.LINES);
         traceBoosting.setNumThreads(config.numThreads());
-        System.out.println("initial done");
 
         return traceBoosting;
     }
