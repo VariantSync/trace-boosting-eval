@@ -142,8 +142,8 @@ public class Evaluator {
                 }
                 counter++;
 
-                if ((counter % 20000) == 0)
-                    System.out.println("still in progress... ");
+               // if ((counter % 20000) == 0)
+               //     System.out.println("still in progress of comparing... ");
             }
             evaluatedNodes++;
         }
