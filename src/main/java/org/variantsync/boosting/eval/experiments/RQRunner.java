@@ -33,9 +33,10 @@ public class RQRunner extends ExperimentRunner {
     }
 
     /**
-     * Runs the experiment by conducting multiple runs with different sample
-     * sizes and mapping percentages.
-     * Generates JSON output with the experiment results and saves it to a file.
+     * Conducts the experiment by running the boosted feature tracing with different sample
+     * sizes and mapping percentages as specified in the given experiment configuration.
+     * The experiment results of each run are collected and added in JSON format to a file
+     * which serves as outpot.
      *
      * @param splRepoPath        The path to the SPL repository
      * @param commitGroundTruths The list of SPL commits for ground truth comparison
@@ -43,7 +44,7 @@ public class RQRunner extends ExperimentRunner {
      */
     public void run(Path splRepoPath, List<SPLCommit> commitGroundTruths) throws IOException {
 
-        // Create JSON properties for the experiment
+        // Create JSON properties for the entire experiment
         JsonObject experimentjson = createJSONProperties();
 
         // Loop on number of sample scenarios
@@ -51,7 +52,7 @@ public class RQRunner extends ExperimentRunner {
             Logger.info(sampleSize + " size of variants out of " + this.sampleSizes.length + " samples");
             final JsonObject samplejson = new JsonObject();
 
-            // Loop on runs
+            // Loop on repetitions
             for (int runID = 1; runID <= ex_repeat; runID++) {
                 final JsonObject runjson = new JsonObject();
 
