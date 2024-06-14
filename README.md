@@ -67,7 +67,7 @@ If there is a mismatch, Docker will print a warning at the start of the build pr
 * If those are well-aligned, the result of the accuracy-metrics may be one, meaning all feature traces are computed correctly.
 * For a higher amount of compared variants and for a higher amount of proactive traces, highly accurate traces can be expected.
 
-## Running the Experiments Using Docker
+## Executing the Experiments Using Docker
 
 * All commands in this section are supposed to be executed in a terminal with working directory at the evaluation-repository's project
 root.
@@ -103,7 +103,7 @@ execute.bat replication
 
 
 **Please note further**: The variants for which feature traces are computed are determined randomly.
-Thus, if you replicate our experiment with exactly the same setup, the exact results may slightly deviate.
+Thus, if you replicate our experiment with exactly the same setup, the results may not be exactly the same.
 However, the general trend of boosting the accuracy should be visible for all computed metrics in a very similar matter.
 
 
@@ -197,7 +197,7 @@ cd python
    deactivate
 
 # Troubleshooting
-## WARNING: The requested image's platform does not match 
+## Docker WARNING: The requested image's platform does not match 
 You might encounter the following warning (or a similar one) during the build step of the docker image: 
 ```shell 
 ➜  trace-boosting-eval git:(main) ✗ ./execute.sh validation
@@ -206,6 +206,14 @@ WARNING: The requested image's platform (linux/amd64) does not match the detecte
 Running validation
 ``` 
 In this case, please update the host platform in the `build-on-mac.sh` script and try to rerun the build step. 
+
+## The replication script stops in an "unreachable" state
+You might encounter a situation where the replication script runs in an unreachable state.
+
+<img alt="Unreachable State" src="docs/customFigures/unreachableState.png" height="200" />
+
+In this case, ensure that the groundtruth (data/groundtruth) and the repositories(data/repos) are available in your workspace.
+You can either execute setup.sh or copy them directly from Zenodo to your workspace in the respective directories.
 
 
 # TODOS
