@@ -12,6 +12,21 @@ Our algorithm is designed to enhance the accuracy of retroactive heuristic featu
 Particularly, the algorithm can be used for projects with multiple product variants. 
 There, it can improve the accuracy and efficiency of the tracing process by exploiting reliable manual knowledge. 
 
+In our experiment, we employed the feature traces computed as ground-truth by VEVOS and used them to assign mappings 
+to randomly chosen nodes in the artifact trees which represent the variants' source code.
+We ran each experiment without proactive traces mapped onto the nodes (0%) and increased the amount of available information. 
+Furthermore, we performed this experiment with increasing numbers of compared variants, both as noted in the properties-file (in [data](data)).
+
+In each run, the variants are randomly generated (invocation of ``prepareVariants()`` in [RQRunner](src/main/java/org/variantsync/boosting/eval/experiments/RQRunner.java)) 
+and evaluated based on the increasing amounts of feature traces, 
+which are randomly distributed and assigned to nodes of the artifact trees, for each increase of available proactive feature trace annotations.
+After having propagated the proactive traces for the boosting effect, the boosted algorithm determines feature annotations for each remainingnode.
+
+Finally, in this experiment, we compare (``compareMappings()`` in [Evaluator](src/main/java/org/variantsync/boosting/eval/experiments/Evaluator.java)) 
+the agreement of the ground truth data and the mapping determined by the boosted algorithm, 
+on whether a node should be present a variant. 
+If ground truth and mapping align we count it as true positive or negative (the latter if the node is removed). 
+If the ground truth keeps the node while the mapping would remove it, we count it as false negative, and vice versa. 
 
 ## Obtaining this Artifact
 Clone the repository to a location of your choice using [git](https://git-scm.com/docs/git-clone):
@@ -64,7 +79,8 @@ If there is a mismatch, Docker will print a warning at the start of the build pr
   `./results`.
 
   **Please note:** In the provided default configuration (data/validation.properties), the experiment is run only on one set of variants.
-* If those are well-aligned, the result of the accuracy-metrics may be one, meaning all feature traces are computed correctly.
+* If the variants are well-aligned, the comparison may result in perfect matches of the computed and actual feature trace, 
+* (i.e., accuracy metrics of 1).
 * For a higher amount of compared variants and for a higher amount of proactive traces, highly accurate traces can be expected.
 
 ## Executing the Experiments Using Docker
@@ -232,10 +248,3 @@ You might encounter a situation where the replication script runs in an unreacha
 
 In this case, ensure that the [ground truth](data/ground-truth) and the [repositories](data/repos) are available in your workspace.
 You can either execute setup.sh or copy them from [Zenodo](https://doi.org/10.5281/zenodo.11472597) to your workspace in the respective directories.
-
-
-# TODOS
-- Test setup
-    - Windows
-        - replication
-        - validation
