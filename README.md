@@ -144,16 +144,34 @@ docker system prune -a
 ```
 Please refer to the official documentation on how to remove specific [images](https://docs.docker.com/engine/reference/commandline/image_rm/) and [containers](https://docs.docker.com/engine/reference/commandline/container_rm/) from your system.
 
-## Generating the plots 
-### Make sure there are results to analyze 
-If you have not executed the replication or validation, there are no results to analyze and plot, yet. 
+
+## Running the Experiment from Source
+
+To run the experiment from source, you need to have installed: 
+- [Maven](https://maven.apache.org/)
+- [Java JDK 17](https://www.oracle.com/java/technologies/downloads/) or a newer version
+
+The entrypoint to the experiment is implemented in the class [_Main_](src/main/java/org/variantsync/boosting/eval/Main.java). To run the experiment from that class,
+you need to provide the configuration of the experiment as first argument to the main-methods. 
+
+As argument to the main method you can specifiy
+- ``"data/replication.properties" `` to conduct the entire experiment, as reported in the paper.
+- ``"data/validation.properties"`` to conduct the validation experiment, which runs the experiment once with OpenVPN for a lower number of distinct percentages
+
+Intermediary results are written to the directory 'results/intermediary', which persist the outcome of each execution run 
+(i.e., with one number of applied percentages and to a fixed set of variants).
+The final results are only written when all execution runs, as specified in the properties files, have been executed. 
+They can be found in the 'results' directory.
+
+## Generating the Plots
+### Make sure there are results to analyze
+If you have not executed the replication or validation, there are no results to analyze and plot, yet.
 The artifact also contains the [results](reported-results) we obtained by conducting the experiment and which were reported in the paper.  
-To generate the plots presented in our paper, you need to copy the result files (.json) located in the [reported-results](reported-results) directory to the [results](results) directory. 
+To generate the plots presented in our paper, you need to copy the result files (.json) located in the [reported-results](reported-results) directory to the [results](results) directory.
 
 ```bash 
 cp reported-results/* results/
 ```
-
 
 ### Execute the python script
 
@@ -212,8 +230,8 @@ You might encounter a situation where the replication script runs in an unreacha
 
 <img alt="Unreachable State" src="docs/customFigures/unreachableState.png" height="200" />
 
-In this case, ensure that the groundtruth (data/groundtruth) and the repositories(data/repos) are available in your workspace.
-You can either execute setup.sh or copy them directly from Zenodo to your workspace in the respective directories.
+In this case, ensure that the [ground truth](data/ground-truth) and the [repositories](data/repos) are available in your workspace.
+You can either execute setup.sh or copy them from [Zenodo](https://doi.org/10.5281/zenodo.11472597) to your workspace in the respective directories.
 
 
 # TODOS
