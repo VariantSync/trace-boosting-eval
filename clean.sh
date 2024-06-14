@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+
 echo "Cleaning all related Docker data. This may take a moment..."
 echo "Trying to stop running containers..."
 docker stop "$(docker ps -a -q --filter "ancestor=boosting")"

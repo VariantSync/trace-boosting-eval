@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+
 USER_ID=$(id -u ${SUDO_USER:-$(whoami)})
 GROUP_ID=$(id -g ${SUDO_USER:-$(whoami)})
 PLATFORM=linux/arm64/v8

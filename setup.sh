@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Download the ground-truth.zip file
 curl -o data/ground-truth.zip https://zenodo.org/records/11472597/files/ground-truth.zip?download=1

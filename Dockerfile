@@ -24,7 +24,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Update the package list and upgrade the system without any prompts
 RUN apt-get update && apt-get upgrade -y
 
-RUN apt-get install bash git python3 unzip curl -y
+RUN apt-get install bash git python3 unzip curl dos2unix -y
 
 # Install Python and pip
 
@@ -47,6 +47,9 @@ COPY python ./python
 RUN mkdir data
 COPY data ./data 
 COPY setup.sh ./setup.sh
+
+# Patch Windows line endings if the repository was cloned on Windows.
+RUN find . -exec dos2unix {} +
 
 # Copy all relevant files from the previous stage
 COPY --from=0 /home/user/target* ./
