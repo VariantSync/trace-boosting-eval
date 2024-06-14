@@ -152,15 +152,17 @@ public abstract class ExperimentRunner {
 
         List<Product> products = traceBoosting.getProducts();
 
-        // mapping
+        // provide proactive mappings according to current percentage amount in config
         RandomMapping.distributeMappings(products, variantGenerationResult.variantGroundTruthMap(), percentage,
                 config.getStrip());
 
+        // spread the proactive mappings and compute remaining ones
         System.out.println("Boosting...");
         long start = System.currentTimeMillis();
         MainTree mainTree = traceBoosting.computeMappings();
         long elapsedTimeMillis = System.currentTimeMillis() - start;
         System.out.println("comparing... ");
+
         // Features that have been sampled for the products and are implemented by at
         // least one product. Only these features are relevant for the evaluation
         Set<String> relevantFeatures = products.stream().flatMap(p -> p.getFeatures().stream().map(Feature::getName))
@@ -168,7 +170,6 @@ public abstract class ExperimentRunner {
         Evaluator evaluator = new Evaluator(traceBoosting);
         double[] results = evaluator.compare(mainTree, variantGenerationResult.variantGroundTruthMap(),
                 relevantFeatures, config.getStrip());
-        //System.out.println("scoring.... ");
         double[] funcScores = Evaluator.scoresFunc(results[0], results[2], results[3]);
 
         return new double[] { results[0] + results[1], funcScores[0], funcScores[1], funcScores[2], elapsedTimeMillis };

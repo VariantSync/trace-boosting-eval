@@ -187,6 +187,7 @@ public class Evaluator {
                     tn += 1.0;
                 }
             } else {
+                // ground truth keeps the node, while mapping removes the node
                 if (gt_bool[i]) {
                     fn += 1.0;
                 } else {
