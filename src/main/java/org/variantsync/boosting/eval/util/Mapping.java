@@ -6,7 +6,7 @@ import org.prop4j.Node;
 import org.variantsync.boosting.TraceBoosting;
 import org.variantsync.boosting.datastructure.ASTNode;
 import org.variantsync.boosting.position.ProductPosition;
-import org.variantsync.boosting.product.Product;
+import org.variantsync.boosting.product.Variant;
 import org.variantsync.vevos.simulation.io.Resources;
 import org.variantsync.vevos.simulation.util.io.CaseSensitivePath;
 import org.variantsync.vevos.simulation.variability.pc.Artefact;
@@ -65,7 +65,7 @@ public class Mapping {
      *                          are stored
      * @return An Artefact object representing the extracted PC
      */
-    public static Artefact findPC(Product product, Path variantsDirectory) {
+    public static Artefact findPC(Variant product, Path variantsDirectory) {
         Artefact artefact;
         try {
             artefact = Resources.Instance().load(Artefact.class,

@@ -2,7 +2,7 @@ package org.variantsync.boosting.eval.util;
 
 import org.variantsync.boosting.datastructure.ASTNode;
 import org.variantsync.boosting.position.ProductPosition;
-import org.variantsync.boosting.product.Product;
+import org.variantsync.boosting.product.Variant;
 import org.variantsync.vevos.simulation.variability.pc.Artefact;
 
 import java.nio.file.Path;
@@ -34,11 +34,11 @@ public class NormalDistributionMapping {
      *                          for RQ3)
      * @return The products with mapped nodes
      */
-    public static Product[] distributeMappings(Product[] preproducts, Path variantsDirectory,
+    public static Variant[] distributeMappings(Variant[] preproducts, Path variantsDirectory,
             Map<String, Artefact> product_pc, double percentage, double standardDeviation) {
         // Calculate the total number of nodes in all preproducts
         int numberOfAllNodes = 0;
-        for (Product product : preproducts) {
+        for (Variant product : preproducts) {
             numberOfAllNodes += product.getProductAst().getAstNodes().size();
         }
 
@@ -46,7 +46,7 @@ public class NormalDistributionMapping {
         int[] distribution = getDistribution(numberOfAllNodes, percentage, standardDeviation);
 
         int j = 0;
-        for (Product product : preproducts) {
+        for (Variant product : preproducts) {
             // Load PCs for a certain product from VEVOS
             Artefact result = Mapping.findPC(product, variantsDirectory);
             // Store PCs in the product_pc map

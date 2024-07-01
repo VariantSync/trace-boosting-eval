@@ -2,7 +2,7 @@ package org.variantsync.boosting.eval.util;
 
 import org.variantsync.boosting.TraceBoosting;
 import org.variantsync.boosting.datastructure.*;
-import org.variantsync.boosting.product.Product;
+import org.variantsync.boosting.product.Variant;
 import org.logicng.formulas.Formula;
 import org.logicng.io.parsers.ParserException;
 import org.logicng.io.parsers.PropositionalParser;
@@ -32,9 +32,9 @@ public class RandomMapping {
      * @param percentage  the percentage of mapping to apply
      * @param strip       the strip value to use for distribution
      */
-    public static void distributeMappings(List<Product> preproducts, Map<String, GroundTruth> gtMap, int percentage,
+    public static void distributeMappings(List<Variant> preproducts, Map<String, GroundTruth> gtMap, int percentage,
             int strip) {
-        for (Product product : preproducts) {
+        for (Variant product : preproducts) {
             // loading PCs for a certain product, PC from VEVOS
             Artefact groundTruth = gtMap.get(product.getName()).variant();
             // get Distribution
@@ -57,7 +57,7 @@ public class RandomMapping {
      *         variant, with each element containing a randomly generated value of 0
      *         or 1.
      */
-    private static Integer[] getDistribution(Product product) {
+    private static Integer[] getDistribution(Variant product) {
         int nodesN = product.getProductAst().getAstNodes().size();
         Integer[] dist = new Integer[nodesN];
         Arrays.fill(dist, 0);
@@ -75,12 +75,13 @@ public class RandomMapping {
      * Applies a distribution of mappings to a given product based on a ground truth
      * artefact.
      *
-     * This method iterates through the ASTNodes of the Product, filters out nodes
+     * This method iterates through the ASTNodes of the given Product, filters nodes
      * with line numbers less than 1, and retrieves the presence condition of each
-     * node from the ground truth. It then shuffles the candidate nodes to randomize
-     * them and assigns mappings to a specified percentage of the nodes. The
-     * mappings are populated with random values (0 or 1) based on the presence
-     * condition of each node.
+     * node from the ground truth.
+     * Then, it shuffles the candidate nodes (whose presence condition is not 'true')
+     * to randomize them and assigns mappings to a given percentage of the nodes.
+     * The mappings are populated with random binary values (0 or 1) based on the
+     * presence condition of each node.
      *
      * @param product     The Product object to apply the distribution to
      * @param groundTruth The Artefact object representing the ground truth
@@ -90,7 +91,7 @@ public class RandomMapping {
      *                                  0 to 100
      * @throws NullPointerException     if either product or groundTruth is null
      */
-    private static void applyDistribution(Product product, Artefact groundTruth, int percentage, int strip) {
+    private static void applyDistribution(Variant product, Artefact groundTruth, int percentage, int strip) {
         // Nodes that can be mapped
         List<ASTNode> candidateNodes = new ArrayList<>();
         Map<ASTNode, Node> pcMap = new HashMap<>();
@@ -114,7 +115,7 @@ public class RandomMapping {
             }
         }
 
-        // shuffle the target nodes to randomize
+        // shuffle the candidate nodes to randomly assign mappings
         Collections.shuffle(candidateNodes);
 
         int numberOfMappedNodes = (percentage * candidateNodes.size()) / 100;
@@ -123,7 +124,9 @@ public class RandomMapping {
                 + candidateNodes.size()
                 + " variable nodes (" + percentage + "%)");
 
-        // Populate the nodes with random values (0 or 1)
+        // Assign a mapping to the first number of nodes in the randomly shuffled set
+        // according to the determined percentage.
+        // The mapping simulates the proactive knowledge
         int brokenFormulas = 0;
         for (int i = 0; i < numberOfMappedNodes; i++) {
             var node = candidateNodes.get(i);

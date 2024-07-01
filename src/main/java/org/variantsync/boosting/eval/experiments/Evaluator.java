@@ -8,7 +8,7 @@ import org.variantsync.boosting.datastructure.ASTNode;
 import org.variantsync.boosting.datastructure.Feature;
 import org.variantsync.boosting.datastructure.MainTree;
 import org.variantsync.boosting.position.ProductPosition;
-import org.variantsync.boosting.product.Product;
+import org.variantsync.boosting.product.Variant;
 import org.variantsync.functjonal.Result;
 import org.variantsync.vevos.simulation.util.io.CaseSensitivePath;
 import org.variantsync.vevos.simulation.variability.pc.Artefact;
@@ -79,7 +79,7 @@ public class Evaluator {
         long evaluatedNodes = 0;
         for (ASTNode node : maintree.getTree().getAstNodes()) {
             for (ProductPosition productPosition : maintree.getProductPositions(node)) {
-                Product product = productPosition.product;
+                Variant product = productPosition.variant;
                 assert product != null;
 
                 Artefact result = productPC.get(product.getName()).variant();

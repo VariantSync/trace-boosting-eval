@@ -10,8 +10,8 @@ import org.variantsync.boosting.eval.util.RandomMapping;
 import org.variantsync.boosting.eval.util.VEVOSUtilities;
 import org.variantsync.boosting.eval.util.VariantGenerationResult;
 import org.variantsync.boosting.parsing.ESupportedLanguages;
-import org.variantsync.boosting.product.Product;
-import org.variantsync.boosting.product.ProductPassport;
+import org.variantsync.boosting.product.Variant;
+import org.variantsync.boosting.product.VariantPassport;
 import org.variantsync.vevos.simulation.feature.sampling.Sample;
 import org.variantsync.vevos.simulation.variability.SPLCommit;
 import org.variantsync.vevos.simulation.variability.pc.SourceCodeFile;
@@ -150,7 +150,7 @@ public abstract class ExperimentRunner {
                 variantGenerationResult.variantGroundTruthMap(),
                 variantGenerationResult.variantConfigFileMap());
 
-        List<Product> products = traceBoosting.getProducts();
+        List<Variant> products = traceBoosting.getVariants();
 
         // provide proactive mappings according to current percentage amount in config
         RandomMapping.distributeMappings(products, variantGenerationResult.variantGroundTruthMap(), percentage,
@@ -188,10 +188,10 @@ public abstract class ExperimentRunner {
     public TraceBoosting initBoosting(Path variantsDirectory, Map<String, GroundTruth> gtMap,
             Map<String, Path> configFileMap) {
 
-        List<ProductPassport> productPassports = new ArrayList<>();
+        List<VariantPassport> productPassports = new ArrayList<>();
         for (Map.Entry<String, GroundTruth> gtEntry : gtMap.entrySet()) {
             String variantName = gtEntry.getKey();
-            productPassports.add(new ProductPassport(variantName, variantsDirectory.resolve(variantName),
+            productPassports.add(new VariantPassport(variantName, variantsDirectory.resolve(variantName),
                     configFileMap.get(variantName)));
         }
 
